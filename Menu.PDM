@@ -1,0 +1,418 @@
+[Root]
+Most Recent Package=Setup CD'S Loc
+
+
+[Package|Dep File 1|Root]
+SubWizProgID=PDWizard.DepPkgSubWiz
+BuildFolder=C:\Trab\Sand
+
+[Package|Dep File 1|Configure DAO ISAMs]
+Applicable=Yes
+Text=No
+Excel=No
+Lotus=No
+Xbase=No
+Paradox=No
+Jet 2.x=Yes
+
+[Package|Dep File 1|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Dep File 1|Files Found]
+
+[Package|Dep File 1|Files Released]
+U2LSAMP1.DLL=
+U2LFINRA.DLL=
+U2LEXCH.DLL=
+U2LESBSE.DLL=
+U2LDTS.DLL=
+U2LCOM.DLL=
+U2LBAR.DLL=
+U2L2000.DLL=
+U25TOTAL.DLL=
+U25STORE.DLL=
+U25DTS.DLL=
+U2FXLS.DLL=
+U2FWORDW.DLL=
+U2FWKS.DLL=
+U2FTEXT.DLL=
+U2FSEPV.DLL=
+U2FRTF.DLL=
+U2FRDEF.DLL=
+U2FODBC.DLL=
+U2FHTML.DLL=
+U2FDIF.DLL=
+U2FCR.DLL=
+U2DVIM.DLL=
+U2DPOST.DLL=
+U2DNOTES.DLL=
+U2DMAPI.DLL=
+U2DDISK.DLL=
+P2SWBLG.DLL=
+P2STRACK.DLL=
+P2SSYB10.DLL=
+P2SSQL.DLL=
+P2SREPL.DLL=
+P2SOUTLK.DLL=
+P2SORA7.DLL=
+P2SMAPI.DLL=
+P2SIFMX.DLL=
+P2SEXSR.DLL=
+P2SDB2.DLL=
+P2SACL.DLL=
+P2OESBSE.DLL=
+P2LODBC.DLL=
+P2IXBSE.DLL=
+P2IRACT.DLL=
+P2CTBTRV.DLL=
+P2BXBSE.DLL=
+P2BBTRV.DLL=
+P2BBDE.DLL=
+P2BACT.DLL=
+CRXLAT32.DLL=
+
+[Package|Dep File 1|Missing Dependency Information]
+
+[Package|Dep File 1|Out-of-Date Dependency Information]
+
+[Package|Dep File 1|Files Added]
+
+[Package|Dep File 1|Files Removed]
+
+[Package|Dep File 1|Files In Project]
+C:\Cib\Menu.exe=Yes
+C:\WINDOWS\SYSTEM\msvbvm60.dll=Yes
+C:\WINDOWS\SYSTEM\OLEAUT32.DLL=Yes
+C:\WINDOWS\SYSTEM\olepro32.dll=Yes
+C:\WINDOWS\SYSTEM\asycfilt.dll=Yes
+C:\WINDOWS\SYSTEM\stdole2.tlb=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\SYSTEM\COMDLG32.OCX=Yes
+C:\WINDOWS\SYSTEM\CRYSTL32.OCX=Yes
+C:\WINDOWS\SYSTEM\CRPE32.DLL=Yes
+C:\WINDOWS\SYSTEM\IMPLODE.DLL=Yes
+C:\WINDOWS\SYSTEM\ccsdk32.dll=Yes
+C:\WINDOWS\SYSTEM\crpaig32.dll=Yes
+C:\WINDOWS\SYSTEM\P2BBND.DLL=Yes
+C:\WINDOWS\SYSTEM\P2BDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\P2CTDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\P2IRDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\p2sevt.dll=Yes
+C:\WINDOWS\SYSTEM\p2smon.dll=Yes
+C:\WINDOWS\SYSTEM\P2SODBC.DLL=Yes
+C:\WINDOWS\SYSTEM\U2FREC.DLL=Yes
+C:\WINDOWS\SYSTEM\MSMASK32.OCX=Yes
+C:\WINDOWS\SYSTEM\PICCLP32.OCX=Yes
+C:\WINDOWS\SYSTEM\THREED32.OCX=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MFC40.DLL=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT40.DLL=Yes
+C:\WINDOWS\SYSTEM\GRID32.OCX=Yes
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO2535.TLB=Yes
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO350.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJET35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJTER35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJINT35.DLL=Yes
+C:\WINDOWS\SYSTEM\VBAJET32.DLL=Yes
+C:\WINDOWS\SYSTEM\EXPSRV.DLL=Yes
+C:\WINDOWS\SYSTEM\MSRD2X35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSREPL35.DLL=Yes
+C:\WINDOWS\SYSTEM\VB5DB.DLL=Yes
+C:\WINDOWS\SYSTEM\DBGRID32.OCX=Yes
+C:\WINDOWS\SYSTEM\TABCTL32.OCX=Yes
+C:\WINDOWS\SYSTEM\DBLIST32.OCX=Yes
+C:\WINDOWS\SYSTEM\MSFLXGRD.OCX=Yes
+C:\WINDOWS\SYSTEM\COMCTL32.OCX=Yes
+
+[Package|Dep File 1|Configure Registry Files]
+Applicable=
+
+[Package|Dep File 1|Configure Remote Servers]
+Applicable=
+
+[Package|Dep File 1|Install Locations]
+C:\Cib\Menu.exe=$(AppPath)
+C:\WINDOWS\SYSTEM\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\olepro32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\asycfilt.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\stdole2.tlb=$(WinSysPathSysFile)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\IMPLODE.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\ccsdk32.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\crpaig32.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2BBND.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2BDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2CTDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2IRDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\p2sevt.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\p2smon.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2SODBC.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\U2FREC.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\MSMASK32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\PICCLP32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\THREED32.OCX=$(WinSysPath)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MFC40.DLL=$(WinSysPathSysFile)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT40.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\GRID32.OCX=$(AppPath)
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO2535.TLB=$(MSDAOPath)
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO350.DLL=$(MSDAOPath)
+C:\WINDOWS\SYSTEM\MSJET35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSJTER35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSJINT35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\EXPSRV.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSRD2X35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSREPL35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\TABCTL32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\DBLIST32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\MSFLXGRD.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\COMCTL32.OCX=$(WinSysPath)
+
+[Package|Dep File 1|Configure Shared Files]
+Applicable=
+
+[Package|Dep File 1|DepFile]
+DepCabFile=Menu.CAB
+DepCabRun=Menu.INF
+
+[Package|Dep File 1|Package]
+PackageFolder=C:\Trab\Sand
+ProjectFolder=H:\Sand\Cd-Loc32
+ServerSideCab=
+File1=C:\Trab\Sand\Menu.DEP
+Handler1=PDWizard.FolderDplySubWiz
+Handler2=PDWizard.WebPostDplySubWiz
+
+
+[Package|Setup CD'S Loc|Root]
+SubWizProgID=PDWizard.SetupPkgSubWiz
+BuildFolder=h:\BD_Prod_CDLoc
+
+[Package|Setup CD'S Loc|Configure DAO ISAMs]
+Applicable=Yes
+Text=No
+Excel=No
+Xbase=No
+Paradox=No
+Jet 2.x=Yes
+
+[Package|Setup CD'S Loc|Configure DAO ODBC]
+JetWorkspace=
+ODBCDirect=
+
+[Package|Setup CD'S Loc|Files Found]
+
+[Package|Setup CD'S Loc|Files Released]
+U2LSAMP1.DLL=
+U2LFINRA.DLL=
+U2LEXCH.DLL=
+U2LESBSE.DLL=
+U2LDTS.DLL=
+U2LCOM.DLL=
+U2LBAR.DLL=
+U2L2000.DLL=
+U25TOTAL.DLL=
+U25STORE.DLL=
+U25DTS.DLL=
+U2FXLS.DLL=
+U2FWORDW.DLL=
+U2FWKS.DLL=
+U2FTEXT.DLL=
+U2FSEPV.DLL=
+U2FRTF.DLL=
+U2FRDEF.DLL=
+U2FODBC.DLL=
+U2FHTML.DLL=
+U2FDIF.DLL=
+U2FCR.DLL=
+U2DVIM.DLL=
+U2DPOST.DLL=
+U2DNOTES.DLL=
+U2DMAPI.DLL=
+U2DDISK.DLL=
+P2SWBLG.DLL=
+P2STRACK.DLL=
+P2SSYB10.DLL=
+P2SSQL.DLL=
+P2SREPL.DLL=
+P2SOUTLK.DLL=
+P2SORA7.DLL=
+P2SMAPI.DLL=
+P2SIFMX.DLL=
+P2SEXSR.DLL=
+P2SDB2.DLL=
+P2SACL.DLL=
+P2OESBSE.DLL=
+P2LODBC.DLL=
+P2IXBSE.DLL=
+P2IRACT.DLL=
+P2CTBTRV.DLL=
+P2BXBSE.DLL=
+P2BBTRV.DLL=
+P2BBDE.DLL=
+P2BACT.DLL=
+CRXLAT32.DLL=
+BD_CDLOC.mdb=
+
+[Package|Setup CD'S Loc|Missing Dependency Information]
+
+[Package|Setup CD'S Loc|Out-of-Date Dependency Information]
+
+[Package|Setup CD'S Loc|Files Added]
+
+[Package|Setup CD'S Loc|Files Removed]
+
+[Package|Setup CD'S Loc|Files In Project]
+C:\WINDOWS\SYSTEM\msvbvm60.dll=Yes
+C:\WINDOWS\SYSTEM\OLEAUT32.DLL=Yes
+C:\WINDOWS\SYSTEM\olepro32.dll=Yes
+C:\WINDOWS\SYSTEM\asycfilt.dll=Yes
+C:\WINDOWS\SYSTEM\stdole2.tlb=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=Yes
+C:\WINDOWS\SYSTEM\COMDLG32.OCX=Yes
+C:\WINDOWS\SYSTEM\CRYSTL32.OCX=Yes
+C:\WINDOWS\SYSTEM\CRPE32.DLL=Yes
+C:\WINDOWS\SYSTEM\IMPLODE.DLL=Yes
+C:\WINDOWS\SYSTEM\ccsdk32.dll=Yes
+C:\WINDOWS\SYSTEM\crpaig32.dll=Yes
+C:\WINDOWS\SYSTEM\P2BBND.DLL=Yes
+C:\WINDOWS\SYSTEM\P2BDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\P2CTDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\P2IRDAO.DLL=Yes
+C:\WINDOWS\SYSTEM\p2sevt.dll=Yes
+C:\WINDOWS\SYSTEM\p2smon.dll=Yes
+C:\WINDOWS\SYSTEM\P2SODBC.DLL=Yes
+C:\WINDOWS\SYSTEM\U2FREC.DLL=Yes
+C:\WINDOWS\SYSTEM\MSMASK32.OCX=Yes
+C:\WINDOWS\SYSTEM\PICCLP32.OCX=Yes
+C:\WINDOWS\SYSTEM\THREED32.OCX=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MFC40.DLL=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT40.DLL=Yes
+C:\WINDOWS\SYSTEM\GRID32.OCX=Yes
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO2535.TLB=Yes
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO350.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJET35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJTER35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSJINT35.DLL=Yes
+C:\WINDOWS\SYSTEM\VBAJET32.DLL=Yes
+C:\WINDOWS\SYSTEM\EXPSRV.DLL=Yes
+C:\WINDOWS\SYSTEM\MSRD2X35.DLL=Yes
+C:\WINDOWS\SYSTEM\MSREPL35.DLL=Yes
+C:\WINDOWS\SYSTEM\VB5DB.DLL=Yes
+C:\WINDOWS\SYSTEM\DBGRID32.OCX=Yes
+C:\WINDOWS\SYSTEM\TABCTL32.OCX=Yes
+C:\WINDOWS\SYSTEM\DBLIST32.OCX=Yes
+C:\WINDOWS\SYSTEM\MSFLXGRD.OCX=Yes
+C:\WINDOWS\SYSTEM\COMCTL32.OCX=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=Yes
+C:\WINDOWS\SYSTEM\VB6STKIT.DLL=Yes
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=Yes
+H:\Menu.exe=Yes
+
+[Package|Setup CD'S Loc|Configure Registry Files]
+Applicable=No
+
+[Package|Setup CD'S Loc|Configure Remote Servers]
+Applicable=No
+
+[Package|Setup CD'S Loc|Install Locations]
+C:\Cib\Menu.exe=$(AppPath)
+C:\WINDOWS\SYSTEM\msvbvm60.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\OLEAUT32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\olepro32.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\asycfilt.dll=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\stdole2.tlb=$(WinSysPathSysFile)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\COMCAT.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\COMDLG32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\CRYSTL32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\CRPE32.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\IMPLODE.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\ccsdk32.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\crpaig32.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2BBND.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2BDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2CTDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2IRDAO.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\p2sevt.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\p2smon.dll=$(WinSysPath)
+C:\WINDOWS\SYSTEM\P2SODBC.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\U2FREC.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\MSMASK32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\PICCLP32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\THREED32.OCX=$(WinSysPath)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MFC40.DLL=$(WinSysPathSysFile)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\Redist\MSVCRT40.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\GRID32.OCX=$(AppPath)
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO2535.TLB=$(MSDAOPath)
+C:\Arquivos de Programas\Arquivos comuns\Microsoft Shared\DAO\DAO350.DLL=$(MSDAOPath)
+C:\WINDOWS\SYSTEM\MSJET35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSJTER35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSJINT35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\VBAJET32.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\EXPSRV.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSRD2X35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\MSREPL35.DLL=$(WinSysPathSysFile)
+C:\WINDOWS\SYSTEM\VB5DB.DLL=$(WinSysPath)
+C:\WINDOWS\SYSTEM\DBGRID32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\TABCTL32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\DBLIST32.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\MSFLXGRD.OCX=$(WinSysPath)
+C:\WINDOWS\SYSTEM\COMCTL32.OCX=$(WinSysPath)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP.EXE=$(AppPath)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\SETUP1.EXE=$(WinPath)
+C:\WINDOWS\SYSTEM\VB6STKIT.DLL=$(WinSysPathSysFile)
+C:\Arquivos de Programas\Microsoft Visual Studio\VB98\Wizards\PDWizard\ST6UNST.EXE=$(WinPath)
+C:\Cib\BD_CDLOC.mdb=$(AppPath)
+C:\download\Menu.exe=$(AppPath)
+H:\Menu.exe=$(AppPath)
+
+[Package|Setup CD'S Loc|Configure Shared Files]
+Applicable=Yes
+C:\Cib\Menu.exe=Yes
+C:\WINDOWS\SYSTEM\GRID32.OCX=Yes
+C:\Cib\BD_CDLOC.mdb=Yes
+C:\download\Menu.exe=No
+H:\Menu.exe=No
+
+[Package|Setup CD'S Loc|DepFile]
+DepCabFile=Menu.CAB
+DepCabRun=Menu.INF
+
+[Package|Setup CD'S Loc|Distribution]
+Type=multi
+Size=1.44 MB
+Title=Sistema de Locação - CD'S LOC
+
+[Package|Setup CD'S Loc|IconGroups]
+Group0=CD'S LOC
+PrivateGroup0=True
+Parent0=$(Programs)
+
+[Package|Setup CD'S Loc|CD'S LOC]
+Icon1=Menu.exe
+Title1=CD'S LOC
+StartIn1=$(AppPath)
+Key1=Icon1
+
+[Package|Setup CD'S Loc|Package]
+PackageFolder=h:\BD_Prod_CDLoc
+ProjectFolder=H:\Sand\Cd-Loc32
+ServerSideCab=
+File1=h:\BD_Prod_CDLoc\setup.exe
+File2=h:\BD_Prod_CDLoc\Setup.Lst
+File3=h:\BD_Prod_CDLoc\Menu1.CAB
+File4=h:\BD_Prod_CDLoc\Menu2.CAB
+File5=h:\BD_Prod_CDLoc\Menu3.CAB
+File6=h:\BD_Prod_CDLoc\Menu4.CAB
+File7=h:\BD_Prod_CDLoc\Menu5.CAB
+File8=h:\BD_Prod_CDLoc\Menu6.CAB
+Handler1=PDWizard.FloppyDplySubWiz
+Handler2=PDWizard.FolderDplySubWiz
+Handler3=PDWizard.WebPostDplySubWiz

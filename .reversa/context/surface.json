@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-05-08T10:34:00Z",
+  "project_root": "D:\\Legados\\Apps\\Cd-Loc32",
+  "languages": [
+    { "name": "Visual Basic 6.0", "extensions": [".frm", ".bas"], "file_count": 19 }
+  ],
+  "primary_language": "Visual Basic 6.0",
+  "frameworks": [
+    { "name": "Microsoft DAO 2.5", "version": "3.5", "source": "Menu.vbp" },
+    { "name": "Crystal Reports", "version": "4.6/5.2", "source": "CRYSTL32.OCX" }
+  ],
+  "package_manager": null,
+  "entry_points": [
+    { "path": "MENU02.FRM", "type": "mdi_form", "name": "Principal" },
+    { "path": "SENHA.FRM", "type": "login_form", "name": "Senha" },
+    { "path": "frmPainel.frm", "type": "splash_screen", "name": "frmPainel" }
+  ],
+  "config_files": [
+    "Menu.vbp",
+    "CONSTANT.TXT"
+  ],
+  "ci_cd": [],
+  "docker": {
+    "dockerfile": null,
+    "compose": null
+  },
+  "database_hints": [
+    { "path": "BD_CDLOC.mdb", "type": "access_database" },
+    { "path": "BD_CDLOC_Desenv.mdb", "type": "access_database" }
+  ],
+  "test_framework": null,
+  "test_file_count": 0,
+  "modules": [
+    "clientes",
+    "dependentes",
+    "cds",
+    "tabelas",
+    "locacao",
+    "reserva",
+    "consultas",
+    "relatorios"
+  ],
+  "total_files": 70,
+  "organization_suggestion": {
+    "granularity": "feature",
+    "rationale": "O projeto é uma aplicação monolítica VB6 sem estrutura de pastas organizada por domínio. A organização por feature permite agrupar as funcionalidades principais do sistema (cadastro, movimentação, reserva, relatórios) de forma lógica para a especificação.",
+    "signals": [],
+    "features": [
+      "cadastro-clientes",
+      "cadastro-cds",
+      "movimentacao",
+      "reservas",
+      "consultas",
+      "relatorios"
+    ]
+  }
+}

@@ -1,0 +1,1231 @@
+{
+  "generated_at": "2026-05-08T10:40:00Z",
+  "modules": [
+    {
+      "name": "autenticacao",
+      "path": "SENHA.FRM",
+      "purpose": "Controlar acesso ao sistema através de validação de senha",
+      "primary_files": ["SENHA.FRM"],
+      "functions": [
+        {
+          "name": "codigo",
+          "file": "SENHA.FRM",
+          "params": ["went: String"],
+          "returns": "String",
+          "description": "Codifica/decodifica senha usando XOR com chave 255",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Form_Load",
+          "file": "SENHA.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa posicionamento do formulário",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Text1_KeyPress",
+          "file": "SENHA.FRM",
+          "params": ["KeyAscii: Integer"],
+          "returns": "void",
+          "description": "Valida senha ao pressionar Enter, com limite de 3 tentativas",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "senha",
+          "fields": [
+            { "name": "id-senha", "type": "Text", "required": true, "description": "Senha codificada (XOR)" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Máximo de 3 tentativas de login antes de encerrar o sistema",
+          "location": "SENHA.FRM:235-237",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Senha máxima de 10 caracteres",
+          "location": "SENHA.FRM:223",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Alteração de senha requer confirmação idêntica",
+          "location": "SENHA.FRM:220-229",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Criptografia usando XOR com chave fixa 255 (reversível)",
+          "location": "SENHA.FRM:176-182",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access"],
+      "algorithms": [
+        {
+          "name": "XOR Encryption",
+          "description": "Cada caractere é XORado com 255 para codificar/decodificar",
+          "location": "SENHA.FRM:176-182",
+          "confidence": "confirmed"
+        }
+      ],
+      "complexity": "low"
+    },
+    {
+      "name": "clientes",
+      "path": "cliente.frm",
+      "purpose": "Gerenciar cadastro de clientes e seus dependentes",
+      "primary_files": ["cliente.frm", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "dados_cliente",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do cliente do recordset global para os campos do formulário",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Dados_Cliente2",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do cliente usando QueryDef parametrizada",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesquisa_cliente",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa cliente por nome ou parte do nome usando InStr case-insensitive",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "GeraCodigo",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Gera novo código sequencial para cliente",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "EncheGrid",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Popula o MSFlexGrid com os dependentes do cliente atual",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Cli_Click",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza dados do cliente após validação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Cli_Click",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui cliente com tratamento de integridade referencial",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Dep_Click",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza dependente do cliente",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Dep_Click",
+          "file": "cliente.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui dependente com tratamento de erro",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "Cliente",
+          "fields": [
+            { "name": "codcliente", "type": "Numeric", "required": true, "description": "Código do cliente (PK)" },
+            { "name": "nomecliente", "type": "Text", "required": true, "description": "Nome completo" },
+            { "name": "endereco", "type": "Text", "required": true, "description": "Endereço residencial" },
+            { "name": "data-nascimento", "type": "Date", "required": true, "description": "Data de nascimento" },
+            { "name": "cdbairro", "type": "Numeric", "required": true, "description": "Código do bairro (FK)" },
+            { "name": "debairro", "type": "Text", "required": false, "description": "Nome do bairro (da query)" },
+            { "name": "deMunic", "type": "Text", "required": false, "description": "Nome do município (da query)" },
+            { "name": "cep", "type": "Text", "required": false, "description": "CEP formatado" },
+            { "name": "fone-01", "type": "Text", "required": false, "description": "Telefone residencial" },
+            { "name": "ramal_res", "type": "Text", "required": false, "description": "Ramal residencial" },
+            { "name": "fone-02", "type": "Text", "required": false, "description": "Telefone comercial" },
+            { "name": "ramal_trab", "type": "Text", "required": false, "description": "Ramal trabalho" },
+            { "name": "fone-03", "type": "Text", "required": false, "description": "Telefone referencial" },
+            { "name": "identidade", "type": "Text", "required": true, "description": "RG" },
+            { "name": "expedidor", "type": "Text", "required": false, "description": "Órgão expedidor" },
+            { "name": "data-expedicao", "type": "Date", "required": false, "description": "Data de expedição" },
+            { "name": "cic", "type": "Text", "required": false, "description": "CPF" },
+            { "name": "empresa", "type": "Text", "required": false, "description": "Nome da empresa" },
+            { "name": "end-comercial", "type": "Text", "required": false, "description": "Endereço comercial" },
+            { "name": "referencia-pessoal", "type": "Text", "required": false, "description": "Referência pessoal" },
+            { "name": "data-inscricao", "type": "Date", "required": false, "description": "Data de cadastro" },
+            { "name": "cancelado", "type": "Boolean", "required": false, "description": "Cliente cancelado" },
+            { "name": "obs", "type": "Text", "required": false, "description": "Observações" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "dependente",
+          "fields": [
+            { "name": "cod_dependente", "type": "Numeric", "required": true, "description": "Código do dependente (PK)" },
+            { "name": "cod_cliente", "type": "Numeric", "required": true, "description": "Código do cliente (FK)" },
+            { "name": "nome_dependente", "type": "Text", "required": true, "description": "Nome do dependente" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Bairro",
+          "fields": [
+            { "name": "cdbairro", "type": "Numeric", "required": true, "description": "Código do bairro (PK)" },
+            { "name": "debairro", "type": "Text", "required": true, "description": "Nome do bairro" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Código de cliente gerado automaticamente via função geracod()",
+          "location": "cliente.frm:1829-1830",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Campos obrigatórios: código, nome, endereço, data nascimento, bairro, identidade",
+          "location": "cliente.frm:2128-2146",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Cliente cancelado não pode cadastrar dependentes",
+          "location": "cliente.frm:1678-1683",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Validação de datas usando IsDate()",
+          "location": "cliente.frm:1946-1978",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Pesquisa de cliente por nome é case-insensitive e busca substring",
+          "location": "cliente.frm:1786-1799",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Exclusão protegida por integridade referencial (erro 3200)",
+          "location": "cliente.frm:2056-2064",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS"],
+      "algorithms": [
+        {
+          "name": "Pesquisa Substring Case-Insensitive",
+          "description": "Usa InStr com UCase e versão normal para busca flexível",
+          "location": "cliente.frm:1786-1799",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "População Dinâmica de Grid",
+          "description": "Aumenta número de linhas do MSFlexGrid conforme registros encontrados",
+          "location": "cliente.frm:2449-2483",
+          "confidence": "confirmed"
+        }
+      ],
+      "complexity": "high"
+    },
+    {
+      "name": "modulo-global",
+      "path": "DECLARA.BAS",
+      "purpose": "Módulo global com funções utilitárias e declarações de banco de dados",
+      "primary_files": ["DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "geracod",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "Long",
+          "description": "Gera próximo código sequencial baseado no último registro da tabela",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SetaBanco",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa conexão com banco e abre todos os recordsets globais",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "trata_errobd",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "void",
+          "description": "Trata erros de banco de dados verificando códigos específicos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "LimpaCampos",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa todos os controles do formulário atual (vformu)",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpacampos1",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa campos específicos do formulário de cliente",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "imprimir_recibo",
+          "file": "DECLARA.BAS",
+          "params": [],
+          "returns": "void",
+          "description": "Função placeholder para impressão de recibo (não implementada)",
+          "confidence": "unknown"
+        }
+      ],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "Códigos sequenciais iniciam em 1 se tabela vazia",
+          "location": "DECLARA.BAS:58-64",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Tratamento de erro define werro_bd = True para cancelar transação",
+          "location": "DECLARA.BAS:186",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access via DAO 2.5"],
+      "algorithms": [
+        {
+          "name": "Geração de Código Sequencial",
+          "description": "Move para último registro e incrementa campo especificado",
+          "location": "DECLARA.BAS:52-66",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Limpeza de Controles por Tipo",
+          "description": "Itera por todos os controles e limpa conforme tipo (TextBox, MaskEdBox, ComboBox, etc.)",
+          "location": "DECLARA.BAS:189-225",
+          "confidence": "confirmed"
+        }
+      ],
+      "complexity": "medium"
+    },
+    {
+      "name": "modulo-mensagens",
+      "path": "ARQUIMSG.BAS",
+      "purpose": "Sistema de mensagens externalizadas em arquivo texto",
+      "primary_files": ["ARQUIMSG.BAS"],
+      "functions": [
+        {
+          "name": "ARQUIMSG",
+          "file": "ARQUIMSG.BAS",
+          "params": ["NomeArq$: String", "Secao%: Integer"],
+          "returns": "void",
+          "description": "Exibe mensagens formatadas de arquivo externo por número de seção",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [],
+      "dependencies": ["Arquivos de mensagem .msg"],
+      "algorithms": [
+        {
+          "name": "Leitura de Mensagens Externalizadas",
+          "description": "Lê arquivo texto, localiza seção por número, extrai tipo/título e exibe mensagens em sequência",
+          "location": "ARQUIMSG.BAS:2-74",
+          "confidence": "confirmed"
+        }
+      ],
+      "complexity": "low"
+    },
+    {
+      "name": "menu-principal",
+      "path": "MENU02.FRM",
+      "purpose": "Formulário MDI principal que orquestra toda a aplicação",
+      "primary_files": ["MENU02.FRM"],
+      "functions": [
+        {
+          "name": "MDIForm_Load",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa conexão, exibe splash screen e solicita login",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "final_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Confirma encerramento e sai do sistema",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cli02_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de clientes",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cds_mdi_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de CDs",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Tabelas_Mdi_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de tabelas auxiliares",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "loc01_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de locação/devolução",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "reserv_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de reserva",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "mnu_Consultas_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Abre formulário de consultas",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "config_imp_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Configura impressora via CommonDialog",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cd_fis_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Imprime relatório de CDs físicos via Crystal Reports",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cd_tit_Click",
+          "file": "MENU02.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Imprime relatório de títulos via Crystal Reports",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [],
+      "business_rules": [],
+      "dependencies": ["Todos os formulários do sistema", "Crystal Reports", "DECLARA.BAS"],
+      "algorithms": [],
+      "complexity": "low"
+    },
+    {
+      "name": "catalogo-cds",
+      "path": "CDS.FRM",
+      "purpose": "Gerenciar catálogo completo de CDs, incluindo Títulos, Músicas e CDs Físicos",
+      "primary_files": ["CDS.FRM", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "Form_Load",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa formulário, gera códigos e carrega dados de tabelas auxiliares",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "dados_titulo",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do título selecionado para os campos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "dados_tit2",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do título usando QueryDef",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "dados_cd",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do CD físico para os campos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_titulo",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa campos da aba de títulos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_musica",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa campos da aba de músicas",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_cd",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa campos da aba de CDs físicos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesq_titulo",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa título por nome usando InputBox e preenche lista",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Tit_Click",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza dados do título após validação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Cd_Click",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza dados do CD físico após validação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Tit_Click",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui título com verificação de integridade referencial",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Cd_Click",
+          "file": "CDS.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui CD físico com tratamento de erro",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "titulo",
+          "fields": [
+            { "name": "codtitulo", "type": "Numeric", "required": true, "description": "Código do título (PK)" },
+            { "name": "nometitulo", "type": "Text", "required": true, "description": "Nome do título do CD" },
+            { "name": "tipo_locacao", "type": "Text", "required": true, "description": "Tipo de locação (24h/48h)" },
+            { "name": "qtde", "type": "Numeric", "required": true, "description": "Quantidade de CDs deste título" },
+            { "name": "valor", "type": "Currency", "required": true, "description": "Valor de locação" },
+            { "name": "cdgrupo", "type": "Numeric", "required": false, "description": "Código do grupo (FK)" },
+            { "name": "cdestilo", "type": "Numeric", "required": false, "description": "Código do estilo (FK)" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "musica",
+          "fields": [
+            { "name": "codmusica", "type": "Numeric", "required": true, "description": "Código da música (PK)" },
+            { "name": "nomemusica", "type": "Text", "required": true, "description": "Nome da música" },
+            { "name": "tempo", "type": "Numeric", "required": false, "description": "Tempo/duração em segundos" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cd",
+          "fields": [
+            { "name": "codcd", "type": "Numeric", "required": true, "description": "Código do CD (PK)" },
+            { "name": "codtitulo", "type": "Numeric", "required": true, "description": "Código do título (FK)" },
+            { "name": "numcd", "type": "Text", "required": true, "description": "Número de identificação do CD" },
+            { "name": "situacao", "type": "Text", "required": true, "description": "Situação (Disponível/Locado/Reservado)" },
+            { "name": "data_cp", "type": "Date", "required": false, "description": "Data de compra" },
+            { "name": "valor_cd", "type": "Currency", "required": false, "description": "Valor de compra" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "titulo-interprete",
+          "fields": [
+            { "name": "codtitulo", "type": "Numeric", "required": true, "description": "Código do título (FK)" },
+            { "name": "codinterprete", "type": "Numeric", "required": true, "description": "Código do intérprete (FK)" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "titulo-musica",
+          "fields": [
+            { "name": "codtitulo", "type": "Numeric", "required": true, "description": "Código do título (FK)" },
+            { "name": "codmusica", "type": "Numeric", "required": true, "description": "Código da música (FK)" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "interprete",
+          "fields": [
+            { "name": "codinterprete", "type": "Numeric", "required": true, "description": "Código do intérprete (PK)" },
+            { "name": "nomeinterprete", "type": "Text", "required": true, "description": "Nome do intérprete" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "grupo",
+          "fields": [
+            { "name": "codgrupo", "type": "Numeric", "required": true, "description": "Código do grupo (PK)" },
+            { "name": "nomegrupo", "type": "Text", "required": true, "description": "Nome do grupo" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "estilo",
+          "fields": [
+            { "name": "codestilo", "type": "Numeric", "required": true, "description": "Código do estilo (PK)" },
+            { "name": "nomeestilo", "type": "Text", "required": true, "description": "Nome do estilo" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Tipo de locação define prazo: 24 horas ou 48 horas",
+          "location": "CDS.FRM",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Quantidade de CDs por título define estoque disponível",
+          "location": "CDS.FRM",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "CD físico vinculado a um título não pode ser locado se não tiver estoque",
+          "location": "CDS.FRM",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Situação do CD controla disponibilidade para locação",
+          "location": "CDS.FRM",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Exclusão de título protegida por integridade referencial (títulos vinculados a locações)",
+          "location": "CDS.FRM:SSCmdExc_Tit_Click",
+          "confidence": "inferred"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS"],
+      "algorithms": [],
+      "complexity": "high"
+    },
+    {
+      "name": "locacao-devolucao",
+      "path": "LOCDEVOL.FRM",
+      "purpose": "Gerenciar todo o ciclo de locação, devolução e emissão de recibos",
+      "primary_files": ["LOCDEVOL.FRM", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "Form_Load",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa formulário, configura abas e Data controls",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_loc",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa todos os campos da aba de locação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_dev",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa todos os campos da aba de devolução",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_rec",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa todos os campos da aba de recibo",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesquisa_cliente",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa cliente para locação por nome ou código",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesquisa_reserva",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa reservas do cliente para converter em locação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Loc_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Grava nova locação após validação de todos os campos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGravaCD_Loc_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Adiciona CD à lista de itens da locação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Dev_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Registra devolução e calcula multa se aplicável",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdImp_Rec_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Imprime recibo via Crystal Reports",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdVer_Rec_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Consulta e exibe detalhes do recibo selecionado",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "grava_recibo",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Grava registro de recibo gerado",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cons_recibo",
+          "file": "LOCDEVOL.FRM",
+          "params": [],
+          "returns": "void",
+          "description": "Consulta recibos pendentes de devolução",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSChkDep_Loc_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": ["Value: Integer"],
+          "returns": "void",
+          "description": "Habilita/Desabilita seleção de dependentes para retirada",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSOpt24_Loc_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": ["Value: Integer"],
+          "returns": "void",
+          "description": "Seleciona tipo de locação 24 horas e recalcula valores",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSOpt48_Loc_Click",
+          "file": "LOCDEVOL.FRM",
+          "params": ["Value: Integer"],
+          "returns": "void",
+          "description": "Seleciona tipo de locação 48 horas e recalcula valores",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "locacao",
+          "fields": [
+            { "name": "codlocacao", "type": "Numeric", "required": true, "description": "Código da locação (PK)" },
+            { "name": "codcliente", "type": "Numeric", "required": true, "description": "Código do cliente (FK)" },
+            { "name": "coddependente", "type": "Numeric", "required": false, "description": "Código do dependente (FK)" },
+            { "name": "codcd", "type": "Numeric", "required": true, "description": "Código do CD locado (FK)" },
+            { "name": "data_locacao", "type": "Date/Time", "required": true, "description": "Data/hora da locação" },
+            { "name": "data_devolucao", "type": "Date/Time", "required": false, "description": "Data/hora da devolução real" },
+            { "name": "data_prevista", "type": "Date/Time", "required": true, "description": "Data prevista para devolução" },
+            { "name": "valor_locacao", "type": "Currency", "required": true, "description": "Valor cobrado na locação" },
+            { "name": "valor_multa", "type": "Currency", "required": false, "description": "Valor da multa por atraso" },
+            { "name": "situacao", "type": "Text", "required": true, "description": "Situação (Locado/Devolvido)" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "recibo",
+          "fields": [
+            { "name": "codrecibo", "type": "Numeric", "required": true, "description": "Código do recibo (PK)" },
+            { "name": "codlocacao", "type": "Numeric", "required": true, "description": "Código da locação (FK)" },
+            { "name": "data_emissao", "type": "Date/Time", "required": true, "description": "Data de emissão" },
+            { "name": "valor_total", "type": "Currency", "required": true, "description": "Valor total (locação + multa)" },
+            { "name": "devolvido", "type": "Boolean", "required": true, "description": "Indica se recibo foi baixado" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "CD locado não pode ser locado novamente até ser devolvido",
+          "location": "LOCDEVOL.FRM",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Multa aplicada se devolução ocorrer após a data prevista",
+          "location": "LOCDEVOL.FRM:SSCmdGrava_Dev_Click",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Dependentes autorizados podem retirar CDs em nome do titular",
+          "location": "LOCDEVOL.FRM:SSChkDep_Loc_Click",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Valor de locação baseado na tabela valor_loc conforme tipo (24h/48h)",
+          "location": "LOCDEVOL.FRM:SSOpt24_Loc_Click, SSOpt48_Loc_Click",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Recibo só pode ser baixado uma vez (campo devolvido = True)",
+          "location": "LOCDEVOL.FRM",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Data prevista de devolução calculada automaticamente: data_locacao + 24h ou 48h",
+          "location": "LOCDEVOL.FRM",
+          "confidence": "inferred"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS", "Crystal Reports"],
+      "algorithms": [
+        {
+          "name": "Cálculo de Multa por Atraso",
+          "description": "Compara data de devolução com data prevista e aplica taxa se atrasado",
+          "location": "LOCDEVOL.FRM:SSCmdGrava_Dev_Click",
+          "confidence": "inferred"
+        },
+        {
+          "name": "Cálculo de Data Prevista",
+          "description": "Adiciona 24h ou 48h à data de locação para definir prazo",
+          "location": "LOCDEVOL.FRM",
+          "confidence": "inferred"
+        }
+      ],
+      "complexity": "high"
+    },
+    {
+      "name": "reserva",
+      "path": "reservcd.frm",
+      "purpose": "Permitir que clientes reservem CDs antes da locação",
+      "primary_files": ["reservcd.frm", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "Form_Load",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa formulário, gera códigos e configura controles",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "dados_tit",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Carrega dados do título selecionado para os campos",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "limpa_reserva",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Limpa todos os campos do formulário",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesquisa_cliente",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa cliente por nome ou código",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "pesquisa_titulo",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Pesquisa título disponível para reserva",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Res_Click",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva nova reserva após validação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdDel_Res_Click",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Cancela/Exclui reserva existente",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Res_Click",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui reserva com confirmação",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdImp_Res_Click",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Imprime relatório de reservas via Crystal Reports",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdVer_Res_Click",
+          "file": "reservcd.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Exibe lista de títulos reservados pelo cliente",
+          "confidence": "confirmed"
+        }
+      ],
+      "entities": [
+        {
+          "name": "reserva",
+          "fields": [
+            { "name": "codreserva", "type": "Numeric", "required": true, "description": "Código da reserva (PK)" },
+            { "name": "codcliente", "type": "Numeric", "required": true, "description": "Código do cliente (FK)" },
+            { "name": "codtitulo", "type": "Numeric", "required": true, "description": "Código do título (FK)" },
+            { "name": "data_reserva", "type": "Date/Time", "required": true, "description": "Data/hora da reserva" },
+            { "name": "data_prevista", "type": "Date/Time", "required": false, "description": "Data prevista para retirada" },
+            { "name": "situacao", "type": "Text", "required": true, "description": "Situação (Pendente/Confirmada/Cancelada)" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Reserva não garante disponibilidade física do CD na retirada",
+          "location": "reservcd.frm",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Múltiplas reservas podem existir para o mesmo título e cliente",
+          "location": "reservcd.frm:SSCmdVer_Res_Click",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Reservas podem ser canceladas antes da locação",
+          "location": "reservcd.frm:SSCmdDel_Res_Click, SSCmdExc_Res_Click",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Ao efetivar locação, reserva correspondente deve ser marcada como confirmada",
+          "location": "LOCDEVOL.FRM:pesquisa_reserva",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Cliente pode ver lista de títulos reservados e datas prováveis de retorno",
+          "location": "reservcd.frm:LstRet_Res",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS", "Crystal Reports"],
+      "algorithms": [],
+      "complexity": "medium"
+    },
+    {
+      "name": "consultas",
+      "path": "frmConsulta.frm",
+      "purpose": "Permitir consultas flexíveis em várias tabelas do banco",
+      "primary_files": ["frmConsulta.frm", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "Form_Load",
+          "file": "frmConsulta.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa formulário, configura Data control e carrega tipos de consulta",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "cboTpConsulta_Click",
+          "file": "frmConsulta.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Atualiza RecordSource do Data control conforme tipo selecionado",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "executa_consulta",
+          "file": "frmConsulta.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Constrói SQL dinâmico baseado nos parâmetros e executa consulta",
+          "confidence": "inferred"
+        },
+        {
+          "name": "preenche_grid",
+          "file": "frmConsulta.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Popula MSFlexGrid com resultados da consulta",
+          "confidence": "inferred"
+        }
+      ],
+      "entities": [],
+      "business_rules": [
+        {
+          "description": "Consulta é read-only (apenas leitura), não permite alterações",
+          "location": "frmConsulta.frm:dtaConsulta.ReadOnly = True",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Modos de pesquisa: Todas as Ocorrências, Palavras Exatas, Palavra Inicial + Complemento",
+          "location": "frmConsulta.frm:optTodos, optExato, optInicComp",
+          "confidence": "confirmed"
+        },
+        {
+          "description": "Tipos de consulta disponíveis: Títulos, Músicas, CDs, Clientes, Locações, Reservas",
+          "location": "frmConsulta.frm:cboTpConsulta",
+          "confidence": "confirmed"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS"],
+      "algorithms": [
+        {
+          "name": "Construção Dinâmica de SQL",
+          "description": "Monta cláusula WHERE baseada no modo de pesquisa selecionado",
+          "location": "frmConsulta.frm",
+          "confidence": "inferred"
+        }
+      ],
+      "complexity": "medium"
+    },
+    {
+      "name": "tabelas-auxiliares",
+      "path": "tabelas.frm",
+      "purpose": "Gerenciar tabelas auxiliares do sistema (Intérprete, Grupo, Estilo, Bairro, Município)",
+      "primary_files": ["tabelas.frm", "DECLARA.BAS"],
+      "functions": [
+        {
+          "name": "Form_Load",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Inicializa formulário e configura abas",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Int_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza intérprete",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdExc_Int_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Exclui intérprete",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Grp_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza grupo",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Est_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza estilo",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Bai_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza bairro",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "SSCmdGrava_Mun_Click",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Salva/Atualiza município",
+          "confidence": "confirmed"
+        },
+        {
+          "name": "GeraCodigo_X",
+          "file": "tabelas.frm",
+          "params": [],
+          "returns": "void",
+          "description": "Gera novo código para tabela X (uma função por aba)",
+          "confidence": "inferred"
+        }
+      ],
+      "entities": [
+        {
+          "name": "interprete",
+          "fields": [
+            { "name": "codinterprete", "type": "Numeric", "required": true, "description": "Código do intérprete (PK)" },
+            { "name": "nomeinterprete", "type": "Text", "required": true, "description": "Nome do intérprete" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "grupo",
+          "fields": [
+            { "name": "codgrupo", "type": "Numeric", "required": true, "description": "Código do grupo (PK)" },
+            { "name": "nomegrupo", "type": "Text", "required": true, "description": "Nome do grupo" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "estilo",
+          "fields": [
+            { "name": "codestilo", "type": "Numeric", "required": true, "description": "Código do estilo (PK)" },
+            { "name": "nomeestilo", "type": "Text", "required": true, "description": "Nome do estilo" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Bairro",
+          "fields": [
+            { "name": "cdbairro", "type": "Numeric", "required": true, "description": "Código do bairro (PK)" },
+            { "name": "debairro", "type": "Text", "required": true, "description": "Nome do bairro" },
+            { "name": "codmunic", "type": "Numeric", "required": false, "description": "Código do município (FK)" }
+          ],
+          "confidence": "confirmed"
+        },
+        {
+          "name": "Municipio",
+          "fields": [
+            { "name": "codmunic", "type": "Numeric", "required": true, "description": "Código do município (PK)" },
+            { "name": "nomemunic", "type": "Text", "required": true, "description": "Nome do município" }
+          ],
+          "confidence": "confirmed"
+        }
+      ],
+      "business_rules": [
+        {
+          "description": "Código gerado automaticamente em todas as tabelas auxiliares",
+          "location": "tabelas.frm",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Bairro está vinculado a Município através de codmunic (FK)",
+          "location": "tabelas.frm:dtaBairro",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Nomes devem ser únicos em Intérprete, Grupo e Estilo",
+          "location": "tabelas.frm",
+          "confidence": "inferred"
+        },
+        {
+          "description": "Municípios podem ter homônimos (não exigido unicidade de nome)",
+          "location": "tabelas.frm",
+          "confidence": "inferred"
+        }
+      ],
+      "dependencies": ["Banco de Dados Access", "DECLARA.BAS"],
+      "algorithms": [],
+      "complexity": "low"
+    }
+  ]
+}

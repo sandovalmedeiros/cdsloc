@@ -1,0 +1,77 @@
+Estas primeiras linhas não serão exibidas pelo subprograma
+ArquiMsg, pois elas nao sao precedidas pela linha especial
+que marca cada seção de mensagem. Estas linhas são úteis
+para documentar o arquivo de mensagem.
+
+A linha que marca cada seção começa com o caractere maior
+que (>), seguido pelo número do bloco, o numero do tipo
+MsgBox e a string de título para MsgBox. Vírgulas devem
+separar estes parâmetros; espaços são simplesmente
+ignorados. As linhas de mensagem terminam quando outra linha
+precedida pelo caractere ">" é encontrada ou o final do
+arquivo é encontrado.
+
+> 1, 64, ATENÇÃO !! 
+Você digitou um Caracter inválido. 
+
+
+> 2, 64, AVISO !
+Data Inválida. 
+
+
+> 3, 32, AVISO !
+Este registro não existe na tabela, tente outro.
+
+> 4, 0, Mensagens Seqüenciais - Tópico 3
+Aqui é demonstrado como blocos seqüenciais de mensagem 
+podem ser exibidos. Dê um click em OK para prosseguir com
+o próximo bloco de mensagem.
+
+>
+Esta é a segunda parte da mensagem para Opções, Tópico 3".
+Seções de um mesmo bloco de mensagem são separadas pelo
+caractere ">".
+
+Mais uma seção segue esta...
+
+>
+Esta é a última seção do texto para o bloco de mensagem
+Opções, Tópico 3".
+
+> 5, 16, AVISO !
+Este registro já existe, Impossível inclusão.
+
+>6, 64, CUIDADO !
+Antes de Cadastrar Música
+ você deve GRAVAR o Título.
+
+>7, 64, AVISO 
+O Grupo da tabela não consta
+na relação dos botões de opção.
+Entre em contato com o desenvolvedor
+do sistema para as devidas alterações.
+
+>8, 64, ESCOLHA !
+Você deve escolher um dos itens da lista.
+
+>9,64, Atenção !
+Use letras MAIÚSCULAS para o formato do Código
+Ex: IT-0031, use o Traço, ou voçê digitou um caractér inválido.
+
+>10, 64, AVISO !
+O Campo não pode ficar vazio.
+
+>11, 64, ATENÇÃO !
+Use Apenas NÚMEROS.
+
+>12, Ajuda
+Você deve digitar a senha do sistema e em
+seguida teclar o ENTER. Após 3 tentativas
+sem êxito o sistema abandona a opção.
+
+>13,  68, ATENÇÃO !
+O CD não está cadastrado.
+Deseja Continuar ?
+
+>14, 64, AVISO !
+Este CD encontra-se locado.
