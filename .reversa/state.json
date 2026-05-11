@@ -9,12 +9,9 @@
   "doc_level_confirmed": true,
   "output_folder": "_reversa_sdd",
   "forward_folder": "_reversa_forward",
-  "phase": "interpretacao",
-  "completed": ["scout", "archaeologist", "detective", "architect"],
-  "pending": [
-    "geracao",
-    "revisao"
-  ],
+  "phase": "concluido",
+  "completed": ["scout", "archaeologist", "detective", "architect", "writer", "reviewer"],
+  "pending": [],
   "checkpoints": {
     "scout": {
       "timestamp": "2026-05-08T10:34:00Z",
@@ -120,6 +117,22 @@
         "_reversa_sdd/user-stories/fluxo-principal-cadastro-cds.md"
       ],
       "progress": 23
+    },
+    "reviewer": {
+      "timestamp": "2026-05-11T00:00:00Z",
+      "files_generated": [
+        "_reversa_sdd/questions.md",
+        "_reversa_sdd/confidence-report.md"
+      ],
+      "specs_reviewed": 6,
+      "cross_review_performed": false,
+      "reclassifications": {
+        "red_to_green": 13,
+        "yellow_to_green": 2
+      },
+      "questions_generated": 15,
+      "questions_answered": 15,
+      "overall_confidence": 0.88
     }
   },
   "engines": [

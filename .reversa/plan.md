@@ -42,15 +42,15 @@
 ## Fase 4: Geração 📝
 
 - [x] **Redator** — Specs SDD por componente
-- [ ] **Redator** — OpenAPI (se aplicável)
+- [n/a] **Redator** — OpenAPI (não aplicável para sistema VB6 desktop)
 - [x] **Redator** — User Stories (se aplicável)
 - [x] **Redator** — Code/Spec Matrix
 
 ## Fase 5: Revisão ✅
 
-- [ ] **Revisor** — Revisão cruzada de specs
-- [ ] **Revisor** — Resolução de lacunas com o usuário
-- [ ] **Revisor** — Relatório de confiança final
+- [x] **Revisor** — Revisão cruzada de specs
+- [x] **Revisor** — Resolução de lacunas com o usuário
+- [x] **Revisor** — Relatório de confiança final
 
 ---
 
