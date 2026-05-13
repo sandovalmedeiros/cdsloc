@@ -4,8 +4,8 @@
   "lastCheckpoint": "2026-05-12T00:00:00Z",
   "completedAgents": ["paradigm_advisor", "curator", "strategist", "designer", "inspector"],
   "pendingAgents": [],
-  "phase": "handoff",
-  "status": "pending",
+  "phase": "concluido",
+  "status": "complete",
   "pendingDecisions": [],
   "artifacts": {
     "paradigm_decision.md": "sha256:<hash>",

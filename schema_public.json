@@ -1,0 +1,1129 @@
+{
+  "database": "cdsloc",
+  "schema_principal": "public",
+  "data_geracao": "2026-05-12T23:12:10.301053",
+  "tabelas": {
+    "bairros": {
+      "nome": "bairros",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('bairros_id_seq'::regclass)"
+        },
+        {
+          "nome": "cdbairro",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "debairro",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_municipio",
+          "tipo": "integer",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 125
+    },
+    "cds": {
+      "nome": "cds",
+      "colunas": [
+        {
+          "nome": "codigo",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_titulo",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "numcd",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "situacao_id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "1"
+        },
+        {
+          "nome": "is_locado",
+          "tipo": "boolean",
+          "nullable": "NO",
+          "default": "false"
+        },
+        {
+          "nome": "data_cp",
+          "tipo": "date",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "valor_cp",
+          "tipo": "numeric",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 569
+    },
+    "clientes": {
+      "nome": "clientes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('clientes_id_seq'::regclass)"
+        },
+        {
+          "nome": "codcliente",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "nomecliente",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "endereco",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "data_nascimento",
+          "tipo": "date",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "cdbairro",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "cep",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "fone_01",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "ramal_res",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "fone_02",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "ramal_trab",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "fone_03",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "identidade",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "expedidor",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "data_expedicao",
+          "tipo": "date",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "cpf",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "empresa",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "end_comercial",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "referencia_pessoal",
+          "tipo": "character varying",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "data_inscricao",
+          "tipo": "date",
+          "nullable": "YES",
+          "default": "CURRENT_DATE"
+        },
+        {
+          "nome": "is_cancelado",
+          "tipo": "boolean",
+          "nullable": "NO",
+          "default": "false"
+        },
+        {
+          "nome": "obs",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 283
+    },
+    "dependentes": {
+      "nome": "dependentes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('dependentes_id_seq'::regclass)"
+        },
+        {
+          "nome": "cod_dependente",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_cliente",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "nome_dependente",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 489
+    },
+    "domain_events": {
+      "nome": "domain_events",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "bigint",
+          "nullable": "NO",
+          "default": "nextval('domain_events_id_seq'::regclass)"
+        },
+        {
+          "nome": "event_type",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "event_data",
+          "tipo": "jsonb",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "aggregate_type",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "aggregate_id",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "occurred_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "correlation_id",
+          "tipo": "uuid",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "estilos": {
+      "nome": "estilos",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('estilos_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "descricao",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 18
+    },
+    "grupos": {
+      "nome": "grupos",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('grupos_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "descricao",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 8
+    },
+    "interpretes": {
+      "nome": "interpretes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('interpretes_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 1202
+    },
+    "locacoes": {
+      "nome": "locacoes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('locacoes_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_cliente",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_dependente",
+          "tipo": "integer",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "data_locacao",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "data_prevista",
+          "tipo": "date",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "valor_locacao",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "valor_multa",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": "0.00"
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "locacoes_itens": {
+      "nome": "locacoes_itens",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('locacoes_itens_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_locacao",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_cd",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "valor_item",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "municipios": {
+      "nome": "municipios",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('municipios_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "uf",
+          "tipo": "character",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 7
+    },
+    "musicas": {
+      "nome": "musicas",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('musicas_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "tempo",
+          "tipo": "integer",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 27478
+    },
+    "recibo_itens": {
+      "nome": "recibo_itens",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('recibo_itens_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_recibo",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_cd",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "valor_item",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "recibos": {
+      "nome": "recibos",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('recibos_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_locacao",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_cliente",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "data_emissao",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "valor_total",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "is_devolvido",
+          "tipo": "boolean",
+          "nullable": "NO",
+          "default": "false"
+        },
+        {
+          "nome": "data_devolucao",
+          "tipo": "timestamp without time zone",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 1
+    },
+    "relatorio_specs": {
+      "nome": "relatorio_specs",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('relatorio_specs_id_seq'::regclass)"
+        },
+        {
+          "nome": "tipo",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "template",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "descricao",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 10
+    },
+    "reservas": {
+      "nome": "reservas",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('reservas_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_cliente",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_titulo",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "data_reserva",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "data_prevista",
+          "tipo": "date",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "situacao_id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "1"
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "roles": {
+      "nome": "roles",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('roles_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "permissions",
+          "tipo": "jsonb",
+          "nullable": "NO",
+          "default": "'[]'::jsonb"
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "roles_users": {
+      "nome": "roles_users",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('roles_users_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_user",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_role",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "assigned_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "revoked_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    },
+    "situacoes": {
+      "nome": "situacoes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('situacoes_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "descricao",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        }
+      ],
+      "total_registros": 3
+    },
+    "situacoes_reservas": {
+      "nome": "situacoes_reservas",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('situacoes_reservas_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "descricao",
+          "tipo": "text",
+          "nullable": "YES",
+          "default": null
+        }
+      ],
+      "total_registros": 4
+    },
+    "titulos": {
+      "nome": "titulos",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('titulos_id_seq'::regclass)"
+        },
+        {
+          "nome": "nome",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "tipo_locacao",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "valor",
+          "tipo": "numeric",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "qtde",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "0"
+        },
+        {
+          "nome": "id_grupo",
+          "tipo": "integer",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "id_estilo",
+          "tipo": "integer",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 526
+    },
+    "titulos_interpretes": {
+      "nome": "titulos_interpretes",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('titulos_interpretes_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_titulo",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_interprete",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 529
+    },
+    "titulos_musicas": {
+      "nome": "titulos_musicas",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('titulos_musicas_id_seq'::regclass)"
+        },
+        {
+          "nome": "id_titulo",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "id_musica",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 7542
+    },
+    "users": {
+      "nome": "users",
+      "colunas": [
+        {
+          "nome": "id",
+          "tipo": "integer",
+          "nullable": "NO",
+          "default": "nextval('users_id_seq'::regclass)"
+        },
+        {
+          "nome": "email",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "password_hash",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "salt",
+          "tipo": "character varying",
+          "nullable": "NO",
+          "default": null
+        },
+        {
+          "nome": "active",
+          "tipo": "boolean",
+          "nullable": "NO",
+          "default": "true"
+        },
+        {
+          "nome": "created_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        },
+        {
+          "nome": "last_login_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "YES",
+          "default": null
+        },
+        {
+          "nome": "updated_at",
+          "tipo": "timestamp without time zone",
+          "nullable": "NO",
+          "default": "now()"
+        }
+      ],
+      "total_registros": 0
+    }
+  }
+}
