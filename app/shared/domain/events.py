@@ -9,10 +9,10 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import StrEnum
-from typing import Any, Final
+from typing import Any
 from uuid import UUID, uuid4
 
 
@@ -63,7 +63,7 @@ class EventMetadata:
     ) -> None:
         self.correlation_id = correlation_id or uuid4()
         self.causation_id = causation_id
-        self.event_timestamp = event_timestamp or datetime.now(tz=datetime.timezone.utc)
+        self.event_timestamp = event_timestamp or datetime.now(tz=UTC)
 
 
 @dataclass(frozen=True, slots=True)
@@ -94,7 +94,7 @@ class DomainEvent:
             object.__setattr__(
                 self,
                 "occurred_at",
-                self.occurred_at.replace(tzinfo=datetime.timezone.utc),
+                self.occurred_at.replace(tzinfo=UTC),
             )
 
     @classmethod
@@ -162,6 +162,24 @@ def user_activated(user_id: int, correlation_id: UUID | None = None) -> DomainEv
     )
 
 
+def role_assigned(
+    role_id: int,
+    user_id: int,
+    role_nome: str,
+    correlation_id: UUID | None = None,
+    causation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a role is assigned to a user."""
+    return DomainEvent.create(
+        event_type=EventType.ROLE_ASSIGNED,
+        aggregate_id=role_id,
+        aggregate_type="Role",
+        data={"role_id": role_id, "user_id": user_id, "role_nome": role_nome},
+        correlation_id=correlation_id,
+        causation_id=causation_id,
+    )
+
+
 def cd_status_changed(
     cd_codigo: int,
     titulo_id: int,
@@ -184,6 +202,68 @@ def cd_status_changed(
     )
 
 
+def title_created(
+    titulo_id: int,
+    nome: str,
+    tipo_locacao: str,
+    valor: Decimal,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a new title is created."""
+    return DomainEvent.create(
+        event_type=EventType.TITLE_CREATED,
+        aggregate_id=titulo_id,
+        aggregate_type="Title",
+        data={
+            "titulo_id": titulo_id,
+            "nome": nome,
+            "tipo_locacao": tipo_locacao,
+            "valor": str(valor),
+        },
+        correlation_id=correlation_id,
+    )
+
+
+def cd_registered(
+    cd_codigo: int,
+    numcd: str,
+    titulo_id: int,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a new CD physical is registered."""
+    return DomainEvent.create(
+        event_type=EventType.CD_REGISTERED,
+        aggregate_id=cd_codigo,
+        aggregate_type="CdFisico",
+        data={
+            "cd_codigo": cd_codigo,
+            "numcd": numcd,
+            "titulo_id": titulo_id,
+        },
+        correlation_id=correlation_id,
+    )
+
+
+def stock_updated(
+    titulo_id: int,
+    qtde_anterior: int,
+    qtde_nova: int,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when title stock is updated."""
+    return DomainEvent.create(
+        event_type=EventType.STOCK_UPDATED,
+        aggregate_id=titulo_id,
+        aggregate_type="Title",
+        data={
+            "titulo_id": titulo_id,
+            "qtde_anterior": qtde_anterior,
+            "qtde_nova": qtde_nova,
+        },
+        correlation_id=correlation_id,
+    )
+
+
 def cliente_cancelled(
     codcliente: int,
     nome: str,
@@ -195,6 +275,57 @@ def cliente_cancelled(
         aggregate_id=codcliente,
         aggregate_type="Cliente",
         data={"codcliente": codcliente, "nome": nome},
+        correlation_id=correlation_id,
+    )
+
+
+def cliente_created(
+    codcliente: int,
+    nome: str,
+    email: str | None = None,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a new customer is created."""
+    return DomainEvent.create(
+        event_type=EventType.CUSTOMER_CREATED,
+        aggregate_id=codcliente,
+        aggregate_type="Cliente",
+        data={"codcliente": codcliente, "nome": nome, "email": email},
+        correlation_id=correlation_id,
+    )
+
+
+def cliente_activated(
+    codcliente: int,
+    nome: str,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a customer is activated."""
+    return DomainEvent.create(
+        event_type=EventType.CUSTOMER_ACTIVATED,
+        aggregate_id=codcliente,
+        aggregate_type="Cliente",
+        data={"codcliente": codcliente, "nome": nome},
+        correlation_id=correlation_id,
+    )
+
+
+def dependente_added(
+    cod_dependente: int,
+    codcliente: int,
+    nome_dependente: str,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a dependent is added to a customer."""
+    return DomainEvent.create(
+        event_type=EventType.DEPENDENT_ADDED,
+        aggregate_id=cod_dependente,
+        aggregate_type="Dependente",
+        data={
+            "cod_dependente": cod_dependente,
+            "codcliente": codcliente,
+            "nome_dependente": nome_dependente,
+        },
         correlation_id=correlation_id,
     )
 
@@ -317,6 +448,48 @@ def reserva_criada(
     )
 
 
+def reserva_confirmada(
+    codreserva: int,
+    codcliente: int,
+    codtitulo: int,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a reservation is confirmed."""
+    return DomainEvent.create(
+        event_type=EventType.RESERVA_CONFIRMADA,
+        aggregate_id=codreserva,
+        aggregate_type="Reserva",
+        data={
+            "codreserva": codreserva,
+            "codcliente": codcliente,
+            "codtitulo": codtitulo,
+        },
+        correlation_id=correlation_id,
+    )
+
+
+def reserva_cancelada(
+    codreserva: int,
+    codcliente: int,
+    codtitulo: int,
+    motivo: str | None = None,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a reservation is cancelled."""
+    return DomainEvent.create(
+        event_type=EventType.RESERVA_CANCELADA,
+        aggregate_id=codreserva,
+        aggregate_type="Reserva",
+        data={
+            "codreserva": codreserva,
+            "codcliente": codcliente,
+            "codtitulo": codtitulo,
+            "motivo": motivo,
+        },
+        correlation_id=correlation_id,
+    )
+
+
 def reserva_convertida(
     codreserva: int,
     codlocacao: int,
@@ -338,6 +511,28 @@ def reserva_convertida(
         },
         correlation_id=correlation_id,
         causation_id=causation_id,
+    )
+
+
+def report_requested(
+    report_id: int,
+    report_tipo: str,
+    filtros: dict[str, Any] | None = None,
+    requested_by: int | None = None,
+    correlation_id: UUID | None = None,
+) -> DomainEvent:
+    """Event fired when a report is requested."""
+    return DomainEvent.create(
+        event_type=EventType.REPORT_REQUESTED,
+        aggregate_id=report_id,
+        aggregate_type="ReportSpecification",
+        data={
+            "report_id": report_id,
+            "report_tipo": report_tipo,
+            "filtros": filtros,
+            "requested_by": requested_by,
+        },
+        correlation_id=correlation_id,
     )
 
 
@@ -377,17 +572,32 @@ __all__ = [
     "EventMetadata",
     # Base event
     "DomainEvent",
-    # Event factory functions
+    # Event factory functions - Auth
     "user_created",
     "user_activated",
+    "role_assigned",
+    # Event factory functions - Catalog
+    "title_created",
+    "cd_registered",
     "cd_status_changed",
+    "stock_updated",
+    # Event factory functions - Customers
+    "cliente_created",
+    "cliente_activated",
     "cliente_cancelled",
+    "dependente_added",
+    # Event factory functions - Rentals
     "locacao_criada",
     "devolucao_registrada",
     "multa_calculada",
     "recibo_gerado",
+    # Event factory functions - Reservations
     "reserva_criada",
+    "reserva_confirmada",
+    "reserva_cancelada",
     "reserva_convertida",
+    # Event factory functions - Reports
+    "report_requested",
     # Helpers
     "parse_event_from_json",
 ]

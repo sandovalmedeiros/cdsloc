@@ -6,7 +6,7 @@
 **Stack:** Python 3.11+ / FastAPI 0.104+ / PostgreSQL 14+ / SQLAlchemy 2.0 (async) / Pydantic v2 / Jinja2 + WeasyPrint / Redis 7+ / pytest
 **Estratégia:** Big Bang
 **Gerado em:** 2026-05-12
-**Status:** 13 tarefas | 5 concluídas | 8 pendentes
+**Status:** 13 tarefas | 13 concluídas | 0 pendentes
 
 ---
 
@@ -29,7 +29,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 02 — Shared Domain (Value Objects & Events)
-**Status:** in_progress
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_domain_model.md` (seção Shared), `_reversa_sdd/migration/target_architecture.md` (seção Shared Domain)
 **Constrói:** `app/shared/domain/` com value objects (Money, CEP, CPF, DateRange) e domain events (LocacaoCriada, DevolucaoRegistrada, etc.)
 **Pronto quando:** Value objects validam invariantes, domain events são imutáveis e contêm todos os dados necessários
@@ -61,7 +61,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 06 — Catalog Context
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Catalog), `_reversa_sdd/migration/target_domain_model.md`, `_reversa_sdd/migration/target_business_rules.md`
 **Constrói:** `app/bounded_contexts/catalog/` com domain (Title, Musica, Interprete, CdFisico), services, ports, adapters
 **Pronto quando:** CRUD de títulos, músicas, intérpretes e CDs funciona, controle de estoque validado (apenas CDs disponíveis podem ser locados)
@@ -69,7 +69,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 07 — Customers Context
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Customers), `_reversa_sdd/migration/target_domain_model.md`, `_reversa_sdd/migration/target_business_rules.md`
 **Constrói:** `app/bounded_contexts/customers/` com domain (Cliente, Dependente, Bairro, Municipio), services, ports, adapters
 **Pronto quando:** CRUD de clientes e dependentes funciona, validação de CPF implementada, clientes cancelados bloqueiam operações
@@ -77,7 +77,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 08 — Rentals Context
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Rentals), `_reversa_sdd/migration/target_domain_model.md`, `_reversa_sdd/migration/target_business_rules.md`
 **Constrói:** `app/bounded_contexts/rentals/` com domain (Locacao, Recibo, ItemLocacao), services (CalculationService para multa e data prevista), ports, adapters
 **Pronto quando:** Locação cria recibo e itens em transação atômica, cálculo de multa (R$ 3,50/dia) implementado, devolução baixa recibo
@@ -85,7 +85,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 09 — Reservations Context
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Reservations), `_reversa_sdd/migration/target_domain_model.md`, `_reversa_sdd/migration/target_business_rules.md`
 **Constrói:** `app/bounded_contexts/reservations/` com domain (Reserva), services, ports, adapters
 **Pronto quando:** Reserva por título funciona, bloqueio de duplicatas implementado, conversão em locação funciona
@@ -93,7 +93,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 10 — Reports Context
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Reports), `_reversa_sdd/migration/target_domain_model.md`, `_reversa_sdd/migration/target_business_rules.md`
 **Constrói:** `app/bounded_contexts/reports/` com domain (ReportSpecification), services, adapters (Jinja2 + WeasyPrint para HTML/PDF)
 **Pronto quando:** Relatórios HTML/PDF geram conteúdo equivalente ao legado, substituindo Crystal Reports
@@ -101,7 +101,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 11 — API Adapters Layer
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/target_architecture.md` (seção Adapters Layer, API Layer)
 **Constrói:** `app/adapters/api/` com routers, schemas (Pydantic), middleware (auth, CORS, exception handler)
 **Pronto quando:** Endpoints REST para todos os bounded contexts funcionam, validação Pydantic aplicada, HTTP status codes corretos
@@ -109,7 +109,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 12 — Cutover
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/cutover_plan.md`
 **Constrói:** scripts/checklists de cutover, switch de tráfego, plano de rollback executável
 **Pronto quando:** Sistema novo recebe tráfego conforme o plano Big Bang, backup do Access preservado, rollback testado

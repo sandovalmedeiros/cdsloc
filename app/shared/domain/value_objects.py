@@ -8,17 +8,15 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 from decimal import Decimal, ROUND_HALF_UP
-from typing import Annotated, Final, Self
+from typing import Final, Self
 
 from pydantic import (
     BaseModel,
     ConfigDict,
-    EmailStr,
     Field,
     ValidationInfo,
-    WrapValidator,
     field_validator,
 )
 
@@ -29,24 +27,22 @@ CEP_LENGTH: Final = 5
 MIN_PASSWORD_LENGTH: Final = 8
 MAX_RETRIES: Final = 3
 
+# Helper functions for validation
 
-def _validate_cpf(value: str) -> str:
+
+def validate_cpf(value: str) -> str:
     """Validate Brazilian CPF using digit verification algorithm (BR-MIGRAR-010)."""
     if not value:
         return value
 
-    # Remove non-digits
     cpf = re.sub(r"[^\d]", "", value)
 
-    # Check length
     if len(cpf) != CPF_LENGTH:
         raise ValueError(f"CPF deve ter {CPF_LENGTH} dígitos")
 
-    # Check for invalid CPFs (all same digits)
     if cpf == cpf[0] * CPF_LENGTH:
         raise ValueError("CPF inválido")
 
-    # Calculate verification digits
     for i in range(9, 11):
         total = sum(int(cpf[j]) * (i + 1 - j) for j in range(0, i))
         digit = (total * 10) % 11
@@ -58,7 +54,7 @@ def _validate_cpf(value: str) -> str:
     return cpf
 
 
-def _validate_cep(value: str) -> str:
+def validate_cep(value: str) -> str:
     """Validate Brazilian CEP (5 digits)."""
     if not value:
         return value
@@ -69,31 +65,6 @@ def _validate_cep(value: str) -> str:
         raise ValueError(f"CEP deve ter {CEP_LENGTH} dígitos")
 
     return cep
-
-
-def _validate_date_range(value: tuple[date, date]) -> tuple[date, date]:
-    """Validate that start date is before or equal to end date."""
-    start, end = value
-
-    if start > end:
-        raise ValueError("Data inicial deve ser anterior ou igual à data final")
-
-    return (start, end)
-
-
-def _validate_duration(value: int) -> int:
-    """Validate duration in seconds."""
-    if value < 0:
-        raise ValueError("Duração não pode ser negativa")
-
-    return value
-
-
-# Type aliases for Annotated validators
-CPF = Annotated[str, WrapValidator(_validate_cpf)]
-CEP = Annotated[str, WrapValidator(_validate_cep)]
-DateRangeTuple = Annotated[tuple[date, date], WrapValidator(_validate_date_range)]
-DurationSeconds = Annotated[int, WrapValidator(_validate_duration)]
 
 # Domain Value Objects (immutable, dataclass-based)
 
@@ -211,7 +182,7 @@ class DataPrevista:
     valor: date
 
     def __post_init__(self):
-        if self.valor < date(1900):
+        if self.valor < date(1900, 1, 1):
             raise ValueError("Data prevista inválida")
 
     @classmethod
@@ -301,7 +272,7 @@ class CPFVO(BaseModel):
     @field_validator("valor")
     @classmethod
     def validate_cpf(cls, v: str) -> str:
-        return _validate_cpf(v)
+        return validate_cpf(v)
 
     def mask(self) -> str:
         """Return CPF with standard masking (XXX.XXX.XXX-XX)."""
@@ -380,6 +351,24 @@ class DateRangeVO(BaseModel):
         return (self.data_fim - self.data_inicio).days + 1
 
 
+class EnderecoVO(BaseModel):
+    """Value object for address (BR-MIGRAR-018)."""
+
+    model_config = ConfigDict(frozen=True)
+
+    logradouro: str = Field(..., min_length=1, max_length=200)
+    numero: str = Field(..., min_length=1, max_length=20)
+    complemento: str = Field(default="", max_length=100)
+    bairro: str = Field(..., min_length=1, max_length=100)
+    cidade: str = Field(..., min_length=1, max_length=100)
+    uf: str = Field(..., pattern=r"^[A-Z]{2}$")
+
+    def completo(self) -> str:
+        """Return full address string."""
+        complemento_part = f", {self.complemento}" if self.complemento else ""
+        return f"{self.logradouro}, {self.numero}{complemento_part} - {self.bairro}, {self.cidade} - {self.uf}"
+
+
 class DurationVO(BaseModel):
     """Value object for duration in seconds (Catalog)."""
 
@@ -416,11 +405,10 @@ __all__ = [
     "DataNascimentoVO",
     "DateRangeVO",
     "DurationVO",
-    # Type aliases
-    "CPF",
-    "CEP",
-    "DateRangeTuple",
-    "DurationSeconds",
+    "EnderecoVO",
+    # Helper functions
+    "validate_cpf",
+    "validate_cep",
     # Constants
     "CURRENCY_BRL",
     "CPF_LENGTH",

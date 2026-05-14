@@ -1,6 +1,17 @@
-version: "3.9"
+# Portas mapeadas para evitar conflitos com serviços existentes no host:
+# - PostgreSQL : host 5433 → container 5432
+# - Redis      : host 6380 → container 6379
+# - App (API)  : host 8001 → container 8000
+# - Frontend   : host 3001 → container 80
+#
+# Para usar o PostgreSQL já existente no host (porta 5432) em vez do container:
+#   1. Comente ou remova o serviço "postgres" abaixo
+#   2. No serviço "app", troque DATABASE_URL para:
+#      postgresql+asyncpg://postgres:postgres@host.docker.internal:5432/cdsloc
+#   3. Remova o bloco depends_on.postgres do serviço "app"
 
 services:
+
   postgres:
     image: postgres:15-alpine
     container_name: cdsloc-postgres
@@ -9,7 +20,7 @@ services:
       POSTGRES_PASSWORD: cdsloc_password
       POSTGRES_DB: cdsloc
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,12 +28,14 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - cdsloc-network
 
   redis:
     image: redis:7-alpine
     container_name: cdsloc-redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -30,17 +43,20 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+    networks:
+      - cdsloc-network
 
   app:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    container_name: cdsloc-app
+    container_name: app
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
+      # Dentro da rede Docker os serviços se comunicam pela porta INTERNA do container
       - DATABASE_URL=postgresql+asyncpg://cdsloc:cdsloc_password@postgres:5432/cdsloc
-      - REDIS_URL=redis://redis:6379/0
+      - REDIS_URL=redis://redis:6379/0      # porta interna 6379, não a 6380 do host
       - JWT_SECRET_KEY=${JWT_SECRET_KEY:-your-secret-key-change-in-production}
       - JWT_ALGORITHM=HS256
       - JWT_EXPIRATION_MINUTES=30
@@ -52,7 +68,27 @@ services:
     volumes:
       - ./app:/app/app
       - ./scripts:/app/scripts
+    networks:
+      - cdsloc-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cdsloc-frontend
+    ports:
+      - "3001:80"
+    environment:
+      - VITE_API_URL=http://localhost:8001
+    depends_on:
+      - app
+    networks:
+      - cdsloc-network
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  cdsloc-network:
+    driver: bridge
