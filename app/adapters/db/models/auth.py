@@ -40,8 +40,10 @@ class User(Base):
 
     # Relationships
     roles: Mapped[list["Role"]] = relationship(
-        "UserRole",
+        "Role",
         secondary="roles_users",
+        primaryjoin="User.id == UserRole.id_user",
+        secondaryjoin="Role.id == UserRole.id_role",
         back_populates="users",
         lazy="selectin",
     )
@@ -65,8 +67,10 @@ class Role(Base):
 
     # Relationships
     users: Mapped[list["User"]] = relationship(
-        "UserRole",
+        "User",
         secondary="roles_users",
+        primaryjoin="Role.id == UserRole.id_role",
+        secondaryjoin="User.id == UserRole.id_user",
         back_populates="roles",
         lazy="selectin",
     )
@@ -96,8 +100,8 @@ class UserRole(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=datetime.utcnow)
 
     # Relationships
-    user: Mapped["User"] = relationship("User", back_populates="roles")
-    role: Mapped["Role"] = relationship("Role", back_populates="users")
+    user: Mapped["User"] = relationship("User")
+    role: Mapped["Role"] = relationship("Role")
 
     def __repr__(self) -> str:
         return f"<UserRole id={self.id} user_id={self.id_user} role_id={self.id_role}>"

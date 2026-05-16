@@ -8,6 +8,8 @@ from __future__ import annotations
 from typing import AsyncIterable, Iterable
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.adapters.api.schemas.catalog import (
     CdCreate,
@@ -28,42 +30,64 @@ from app.bounded_contexts.catalog.ports.repositories import (
     TitleRepositoryPort,
 )
 
+
+async def get_db_session():
+    """Dependency injection for AsyncSession."""
+    from app.adapters.db.base import get_db
+    async for session in get_db():
+        yield session
+
+
 router = APIRouter(prefix="/catalog", tags=["catalog"])
+
+
+def map_situacao_to_enum(situacao):
+    """Map SituacaoCd domain enum to API enum."""
+    from app.bounded_contexts.catalog.domain.entities import SituacaoCd
+    from app.adapters.api.schemas.catalog import SituacaoCdEnum
+
+    if situacao == SituacaoCd.DISPONIVEL:
+        return SituacaoCdEnum.DISPONIVEL
+    elif situacao == SituacaoCd.LOCADO:
+        return SituacaoCdEnum.LOCADO
+    elif situacao == SituacaoCd.RESERVADO:
+        return SituacaoCdEnum.RESERVADO
+    return SituacaoCdEnum.DISPONIVEL  # Default
 
 
 async def get_title_repo() -> AsyncIterable[TitleRepositoryPort]:
     """Dependency injection for TitleRepositoryPort."""
     from app.adapters.db.repositories.catalog_repository import PostgresTitleRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context():
+    async for db in get_db():
         yield PostgresTitleRepository(db)
 
 
 async def get_cd_repo() -> AsyncIterable[CdFisicoRepositoryPort]:
     """Dependency injection for CdFisicoRepositoryPort."""
-    from app.adapters.db.repositories.catalog_repository import PostgresCdRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.repositories.catalog_repository import PostgresCdFisicoRepository
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
-        yield PostgresCdRepository(db)
+    async for db in get_db():
+        yield PostgresCdFisicoRepository(db)
 
 
 async def get_musica_repo() -> AsyncIterable[MusicaRepositoryPort]:
     """Dependency injection for MusicaRepositoryPort."""
     from app.adapters.db.repositories.catalog_repository import PostgresMusicaRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
+    async for db in get_db():
         yield PostgresMusicaRepository(db)
 
 
 async def get_interprete_repo() -> AsyncIterable[InterpreteRepositoryPort]:
     """Dependency injection for InterpreteRepositoryPort."""
     from app.adapters.db.repositories.catalog_repository import PostgresInterpreteRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
+    async for db in get_db():
         yield PostgresInterpreteRepository(db)
 
 
@@ -76,13 +100,13 @@ async def create_title(
     title_repo: TitleRepositoryPort = Depends(get_title_repo),
 ):
     """Create a new title."""
-    from app.bounded_contexts.catalog.domain.entities import TipoLocacao
+    from app.bounded_contexts.catalog.domain.entities import TipoLocacao, Title
 
     # Convert Pydantic enum to domain enum
     tipo_locacao = TipoLocacao(data.tipo_locacao.value)
 
-    # Create title
-    title, event = title_repo.create(
+    # Create title using domain entity factory
+    title, event = Title.create(
         nome=data.nome,
         tipo_locacao=tipo_locacao,
         valor=data.valor,
@@ -168,8 +192,14 @@ async def update_title(
 async def delete_title(
     title_id: int,
     title_repo: TitleRepositoryPort = Depends(get_title_repo),
+    cd_repo: CdFisicoRepositoryPort = Depends(get_cd_repo),
 ):
-    """Delete a title."""
+    """Delete a title.
+
+    Validates that no CDs are rented before deletion.
+    """
+    from sqlalchemy import exc as sqlalchemy_exc
+
     title = await title_repo.get_by_id(title_id)
     if not title:
         raise HTTPException(
@@ -177,7 +207,25 @@ async def delete_title(
             detail=f"Título {title_id} não encontrado",
         )
 
-    await title_repo.delete(title_id)
+    # Check if any CDs are rented
+    from app.bounded_contexts.catalog.domain.entities import SituacaoCd
+
+    cds = [cd async for cd in cd_repo.get_by_title_id(title_id)]
+    rented_cds = [cd for cd in cds if cd.locado or cd.situacao != SituacaoCd.DISPONIVEL]
+
+    if rented_cds:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Não é possível excluir título com CDs locados. CDs locados: {[cd.codigo for cd in rented_cds]}",
+        )
+
+    try:
+        await title_repo.delete(title_id)
+    except sqlalchemy_exc.IntegrityError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Não é possível excluir este título devido a relacionamentos existentes. Detalhe: {str(e.orig)}",
+        )
 
 
 # CD endpoints
@@ -189,26 +237,29 @@ async def create_cd(
     cd_repo: CdFisicoRepositoryPort = Depends(get_cd_repo),
 ):
     """Create a new physical CD."""
-    from app.bounded_contexts.catalog.domain.entities import SituacaoCd
+    from app.bounded_contexts.catalog.domain.entities import CdFisico, SituacaoCd
 
-    # Create CD
-    cd, event = cd_repo.create(
+    # Create CD entity
+    cd = CdFisico(
         codigo=0,  # Will be set by repository
         numcd=data.numcd,
         codtitulo=data.id_titulo,
+        locado=False,
         situacao=SituacaoCd.DISPONIVEL,
         data_compra=data.data_compra,
         valor_compra=data.valor_compra,
     )
 
     # Save
-    await cd_repo.save(cd)
+    event = await cd_repo.save(cd)
+
+    from app.adapters.api.schemas.catalog import SituacaoCdEnum
 
     return CdResponse(
         codigo=str(cd.codigo),
         numcd=cd.numcd,
         id_titulo=cd.codtitulo,
-        situacao=CdResponse.model_fields["situacao"].default,
+        situacao=SituacaoCdEnum.DISPONIVEL,
         is_locado=cd.locado,
         data_compra=cd.data_compra,
         valor_compra=cd.valor_compra,
@@ -228,15 +279,40 @@ async def get_cd(
             detail=f"CD {cd_codigo} não encontrado",
         )
 
+    from app.adapters.api.schemas.catalog import SituacaoCdEnum
+
     return CdResponse(
         codigo=str(cd.codigo),
         numcd=cd.numcd,
         id_titulo=cd.codtitulo,
-        situacao=CdResponse.model_fields["situacao"].default,
+        situacao=SituacaoCdEnum.DISPONIVEL,
         is_locado=cd.locado,
         data_compra=cd.data_compra,
         valor_compra=cd.valor_compra,
     )
+
+
+@router.get("/cds", response_model=list[CdResponse])
+async def list_cds(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=100),
+    cd_repo: CdFisicoRepositoryPort = Depends(get_cd_repo),
+):
+    """List all physical CDs with pagination."""
+    cds = [c async for c in cd_repo.get_all(skip=skip, limit=limit)]
+
+    return [
+        CdResponse(
+            codigo=str(cd.codigo),
+            numcd=cd.numcd,
+            id_titulo=cd.codtitulo,
+            situacao=map_situacao_to_enum(cd.situacao),
+            is_locado=cd.locado,
+            data_compra=cd.data_compra,
+            valor_compra=cd.valor_compra,
+        )
+        for cd in cds
+    ]
 
 
 @router.get("/titulos/{title_id}/cds", response_model=list[CdResponse])
@@ -252,7 +328,7 @@ async def get_title_cds(
             codigo=str(cd.codigo),
             numcd=cd.numcd,
             id_titulo=cd.codtitulo,
-            situacao=CdResponse.model_fields["situacao"].default,
+            situacao=map_situacao_to_enum(cd.situacao),
             is_locado=cd.locado,
             data_compra=cd.data_compra,
             valor_compra=cd.valor_compra,
@@ -269,19 +345,41 @@ async def add_music_to_title(
     title_id: int,
     data: MusicaCreate,
     musica_repo: MusicaRepositoryPort = Depends(get_musica_repo),
+    session: AsyncSession = Depends(get_db_session),
 ):
-    """Add a music track to a title."""
+    """Add a music track to a title.
+
+    If music already exists (by name), reuses it. Otherwise creates new.
+    """
     from app.bounded_contexts.catalog.domain.entities import Musica
+    from app.adapters.db.models import Musica as MusicaModel
+    from sqlalchemy import select
 
-    musica = Musica(
-        id=0,
-        nome=data.nome,
-        tempo=data.tempo or 0,
+    # Check if music already exists by name
+    result = await session.execute(
+        select(MusicaModel).where(MusicaModel.nome == data.nome)
     )
+    existing_model = result.scalar_one_or_none()
 
-    await musica_repo.add_to_title(title_id, musica.id)
+    if existing_model:
+        # Music exists, just associate with title
+        musica_id = existing_model.id
+    else:
+        # Create new music entity
+        musica = Musica(
+            id=0,
+            nome=data.nome,
+            tempo=data.tempo or 0,
+        )
 
-    return {"message": "Música adicionada ao título"}
+        # Save music first to get ID
+        await musica_repo.save(musica)
+        musica_id = musica.id
+
+    # Then associate with title
+    await musica_repo.add_to_title(title_id, musica_id)
+
+    return {"message": "Música adicionada ao título", "id": musica_id, "nome": data.nome}
 
 
 @router.post("/titulos/{title_id}/interpretes", status_code=status.HTTP_201_CREATED)
@@ -289,15 +387,91 @@ async def add_interprete_to_title(
     title_id: int,
     data: InterpreteCreate,
     interprete_repo: InterpreteRepositoryPort = Depends(get_interprete_repo),
+    session: AsyncSession = Depends(get_db_session),
 ):
-    """Add an interpreter to a title."""
+    """Add an interpreter to a title.
+
+    If interpreter already exists (by name), reuses it. Otherwise creates new.
+    """
     from app.bounded_contexts.catalog.domain.entities import Interprete
+    from app.adapters.db.models import Interprete as InterpreteModel
+    from sqlalchemy import select
 
-    interprete = Interprete(
-        id=0,
-        nome=data.nome,
+    # Check if interpreter already exists by name
+    result = await session.execute(
+        select(InterpreteModel).where(InterpreteModel.nome == data.nome)
     )
+    existing_model = result.scalar_one_or_none()
 
-    await interprete_repo.add_to_title(title_id, interprete.id)
+    if existing_model:
+        # Interpreter exists, just associate with title
+        interprete_id = existing_model.id
+    else:
+        # Create new interpreter entity
+        interprete = Interprete(
+            id=0,
+            nome=data.nome,
+        )
 
-    return {"message": "Intérprete adicionado ao título"}
+        # Save interpreter first to get ID
+        await interprete_repo.save(interprete)
+        interprete_id = interprete.id
+
+    # Then associate with title
+    await interprete_repo.add_to_title(title_id, interprete_id)
+
+    return {"message": "Intérprete adicionado ao título", "id": interprete_id, "nome": data.nome}
+
+
+@router.get("/titulos/{title_id}/musicas", response_model=list[MusicaResponse])
+async def get_title_musicas(
+    title_id: int,
+    musica_repo: MusicaRepositoryPort = Depends(get_musica_repo),
+):
+    """Get all music tracks for a title."""
+    musicas = [m async for m in musica_repo.get_by_title_id(title_id)]
+    return musicas
+
+
+@router.delete("/titulos/{title_id}/musicas/{musica_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def remove_music_from_title(
+    title_id: int,
+    musica_id: int,
+    musica_repo: MusicaRepositoryPort = Depends(get_musica_repo),
+):
+    """Remove a music track from a title."""
+    await musica_repo.remove_from_title(title_id, musica_id)
+    await musica_repo.delete(musica_id)
+
+
+@router.get("/titulos/{title_id}/interpretes", response_model=list[InterpreteResponse])
+async def get_title_interpretes(
+    title_id: int,
+    interprete_repo: InterpreteRepositoryPort = Depends(get_interprete_repo),
+    session: AsyncSession = Depends(get_db_session),
+):
+    """Get all interpreters for a title."""
+    from app.adapters.db.models import TituloInterprete
+
+    # Get interprete IDs for this title
+    result = await session.execute(
+        select(TituloInterprete).where(TituloInterprete.id_titulo == title_id)
+    )
+    titulo_interpretes = result.scalars().all()
+
+    # Get unique interpretes
+    interprete_ids = [ti.id_interprete for ti in titulo_interpretes]
+
+    # Get all interpretes and filter by ids
+    interpretes = [i async for i in interprete_repo.get_all(limit=1000)]
+    return [i for i in interpretes if i.id in interprete_ids]
+
+
+@router.delete("/titulos/{title_id}/interpretes/{interprete_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def remove_interprete_from_title(
+    title_id: int,
+    interprete_id: int,
+    interprete_repo: InterpreteRepositoryPort = Depends(get_interprete_repo),
+):
+    """Remove an interpreter from a title."""
+    await interprete_repo.remove_from_title(title_id, interprete_id)

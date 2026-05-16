@@ -9,10 +9,38 @@ export const apiClient = axios.create({
   },
 });
 
+// Add error interceptor
+apiClient.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('API Error:', error);
+    if (error.response) {
+      console.error('Response data:', error.response.data);
+      console.error('Response status:', error.response.status);
+    }
+    return Promise.reject(error);
+  }
+);
+
+// Add request interceptor for debugging
+apiClient.interceptors.request.use(
+  config => {
+    console.log('API Request:', config.method.toUpperCase(), config.url);
+    return config;
+  },
+  error => {
+    console.error('Request Error:', error);
+    return Promise.reject(error);
+  }
+);
+
 // API Endpoints
 export const API_ENDPOINTS = {
   // Health
   HEALTH: '/health',
+
+  // Dashboard
+  DASHBOARD_STATS: '/dashboard/stats',
 
   // Catalog
   TITLES: '/catalog/titulos',
@@ -54,6 +82,12 @@ export const apiService = {
     return response.data;
   },
 
+  // Dashboard
+  async getDashboardStats() {
+    const response = await apiClient.get(API_ENDPOINTS.DASHBOARD_STATS);
+    return response.data;
+  },
+
   // Catalog
   async getTitulos(params = {}) {
     const response = await apiClient.get(API_ENDPOINTS.TITLES, { params });
@@ -80,6 +114,32 @@ export const apiService = {
     return response.data;
   },
 
+  async createTitle(data) {
+    const response = await apiClient.post(API_ENDPOINTS.TITLES, data);
+    return response.data;
+  },
+
+  async updateTitulo(id, data) {
+    const response = await apiClient.put(API_ENDPOINTS.TITULO_BY_ID(id), data);
+    return response.data;
+  },
+
+  async deleteTitulo(id) {
+    const response = await apiClient.delete(API_ENDPOINTS.TITULO_BY_ID(id));
+    return response.data;
+  },
+
+  // Music and interpreters for titles
+  async addMusicaToTitle(titleId, data) {
+    const response = await apiClient.post(`/catalog/titulos/${titleId}/musicas`, data);
+    return response.data;
+  },
+
+  async addInterpreteToTitle(titleId, data) {
+    const response = await apiClient.post(`/catalog/titulos/${titleId}/interpretes`, data);
+    return response.data;
+  },
+
   // Customers
   async getClientes(params = {}) {
     const response = await apiClient.get(API_ENDPOINTS.CLIENTES, { params });
@@ -98,6 +158,11 @@ export const apiService = {
 
   async updateCliente(id, data) {
     const response = await apiClient.put(API_ENDPOINTS.CLIENTE_BY_ID(id), data);
+    return response.data;
+  },
+
+  async deleteCliente(id) {
+    const response = await apiClient.delete(API_ENDPOINTS.CLIENTE_BY_ID(id));
     return response.data;
   },
 

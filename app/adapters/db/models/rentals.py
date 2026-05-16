@@ -11,6 +11,7 @@ Business rules:
 """
 
 from datetime import datetime, date
+from typing import Optional
 
 from sqlalchemy import (
     Column,
@@ -48,7 +49,7 @@ class Locacao(Base):
         ForeignKey("clientes.id", ondelete="CASCADE"),
         nullable=False,
     )
-    id_dependente: Mapped[int | None] = mapped_column(
+    id_dependente: Mapped[Optional[int]] = mapped_column(
         Integer,
         ForeignKey("dependentes.id", ondelete="SET NULL"),
         nullable=True,
@@ -83,7 +84,7 @@ class Locacao(Base):
         "Cliente",
         lazy="selectin",
     )
-    dependente: Mapped["Dependente"] | None = relationship(
+    dependente: Mapped[Optional["Dependente"]] = relationship(
         "Dependente",
         lazy="selectin",
     )
@@ -191,7 +192,7 @@ class Recibo(Base):
         nullable=False,
         default=False,
     )
-    data_devolucao: Mapped[datetime | None] = mapped_column(
+    data_devolucao: Mapped[Optional[datetime]] = mapped_column(
         nullable=True,
     )
     created_at: Mapped[datetime] = mapped_column(

@@ -5,6 +5,7 @@ Tables: grupos, estilos, titulos, musicas, interpretes,
 """
 
 from datetime import datetime
+from typing import Optional
 
 from sqlalchemy import (
     Column,
@@ -110,12 +111,12 @@ class Titulo(Base):
     updated_at: Mapped[datetime] = mapped_column(Date, nullable=False, default=datetime.utcnow)
 
     # Relationships
-    grupo: Mapped["Grupo"] | None] = relationship(
+    grupo: Mapped[Optional["Grupo"]] = relationship(
         "Grupo",
         back_populates="titulos",
         lazy="selectin",
     )
-    estilo: Mapped["Estilo"] | None] = relationship(
+    estilo: Mapped[Optional["Estilo"]] = relationship(
         "Estilo",
         back_populates="titulos",
         lazy="selectin",
@@ -258,6 +259,57 @@ class TituloInterprete(Base):
         return f"<TituloInterprete id={self.id} titulo_id={self.id_titulo} interprete_id={self.id_interprete}>"
 
 
+class MusicaInterprete(Base):
+    """Association table for many-to-many Musica <-> Interprete."""
+
+    __tablename__ = "musicas_interpretes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id_musica: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("musicas.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    id_interprete: Mapped[int] = mapped_column(
+        Integer,
+        ForeignKey("interpretes.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    created_at: Mapped[datetime] = mapped_column(Date, nullable=False, default=datetime.utcnow)
+
+    # Relationships
+    musica: Mapped["Musica"] = relationship("Musica", lazy="selectin")
+    interprete: Mapped["Interprete"] = relationship("Interprete", lazy="selectin")
+
+    def __repr__(self) -> str:
+        return f"<MusicaInterprete id={self.id} musica_id={self.id_musica} interprete_id={self.id_interprete}>"
+
+
+class Situacao(Base):
+    """Situacao (status) table for CDs and other entities."""
+
+    __tablename__ = "situacoes"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    descricao: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    tipo: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default="cd",  # cd, reserva, etc.
+    )
+    created_at: Mapped[datetime] = mapped_column(Date, nullable=False, default=datetime.utcnow)
+
+    # Relationships
+    cds: Mapped[list["Cd"]] = relationship(
+        "Cd",
+        back_populates="situacao",
+        lazy="selectin",
+    )
+
+    def __repr__(self) -> str:
+        return f"<Situacao id={self.id} descricao={self.descricao} tipo={self.tipo}>"
+
+
 class Cd(Base):
     """Cd (physical CD) table.
 
@@ -302,11 +354,18 @@ class Cd(Base):
         back_populates="cds",
         lazy="selectin",
     )
+    situacao: Mapped["Situacao"] = relationship(
+        "Situacao",
+        back_populates="cds",
+        lazy="selectin",
+    )
 
     @property
-    def situacao(self) -> str:
-        """Get situacao string based on id."""
-        # Would need Situacao table for full mapping
+    def situacao_descricao(self) -> str:
+        """Get situacao string based on id or relationship."""
+        if self.situacao:
+            return self.situacao.descricao
+        # Fallback mapping
         situacoes = {1: "Disponível", 2: "Locado", 3: "Reservado"}
         return situacoes.get(self.situacao_id, "Desconhecido")
 

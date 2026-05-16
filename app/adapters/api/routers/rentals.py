@@ -31,37 +31,37 @@ router = APIRouter(prefix="/rentals", tags=["rentals"])
 async def get_rental_repo() -> AsyncIterable[RentalRepositoryPort]:
     """Dependency injection for RentalRepositoryPort."""
     from app.adapters.db.repositories.rentals_repository import PostgresRentalRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
+    async for db in get_db():
         yield PostgresRentalRepository(db)
 
 
 async def get_receipt_repo() -> AsyncIterable[ReceiptRepositoryPort]:
     """Dependency injection for ReceiptRepositoryPort."""
     from app.adapters.db.repositories.rentals_repository import PostgresReceiptRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
+    async for db in get_db():
         yield PostgresReceiptRepository(db)
 
 
 async def get_customer_repo() -> AsyncIterable[CustomerRepositoryPort]:
     """Dependency injection for CustomerRepositoryPort."""
     from app.adapters.db.repositories.customers_repository import PostgresCustomerRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
+    async for db in get_db():
         yield PostgresCustomerRepository(db)
 
 
 async def get_cd_repo() -> AsyncIterable:
     """Dependency injection for CdFisicoRepositoryPort."""
-    from app.adapters.db.repositories.catalog_repository import PostgresCdRepository
-    from app.adapters.db.base import get_db_no_context
+    from app.adapters.db.repositories.catalog_repository import PostgresCdFisicoRepository
+    from app.adapters.db.base import get_db
 
-    async for db in get_db_no_context:
-        yield PostgresCdRepository(db)
+    async for db in get_db():
+        yield PostgresCdFisicoRepository(db)
 
 
 async def get_rental_service(

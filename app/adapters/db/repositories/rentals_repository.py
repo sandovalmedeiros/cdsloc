@@ -117,6 +117,9 @@ class PostgresRentalRepository(RentalRepositoryPort):
             )
             self._session.add(item)
 
+        # Commit transaction
+        await self._session.commit()
+
         # Emit event only for new rentals
         if is_new:
             cd_codigo = locacao.codcd
@@ -186,6 +189,7 @@ class PostgresRentalRepository(RentalRepositoryPort):
 
         if locacao:
             await self._session.delete(locacao)
+            await self._session.commit()
 
     def _model_to_domain(self, locacao: Locacao) -> LocacaoDomain:
         """Convert ORM model to domain entity."""
@@ -307,6 +311,9 @@ class PostgresReceiptRepository(ReceiptRepositoryPort):
             await self._session.flush()
             object.__setattr__(recibo, "codrecibo", recibo_model.id)
 
+        # Commit transaction
+        await self._session.commit()
+
         # Emit event only for new receipts
         if is_new:
             event = recibo_gerado(
@@ -344,6 +351,7 @@ class PostgresReceiptRepository(ReceiptRepositoryPort):
 
         if recibo:
             await self._session.delete(recibo)
+            await self._session.commit()
 
     def _model_to_domain(self, recibo: Recibo) -> ReciboDomain:
         """Convert ORM model to domain entity."""

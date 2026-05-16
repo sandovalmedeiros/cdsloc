@@ -85,9 +85,11 @@ class Cliente:
                 f"Data de nascimento inválida: {self.data_nascimento}"
             )
 
-        # Validate CEP (5 digits)
-        if len(self.cep) != 5 or not self.cep.isdigit():
-            raise ValueError("CEP deve ter 5 dígitos numéricos")
+        # Validate CEP (formato XXXXX-XXX ou XXXXXXXX, 5+3 dígitos)
+        # Remove traço para validação
+        cep_clean = self.cep.replace("-", "")
+        if len(cep_clean) != 8 or not cep_clean.isdigit():
+            raise ValueError("CEP deve ter 8 dígitos (formato XXXXX-XXX ou XXXXXXXX)")
 
     @classmethod
     def create(

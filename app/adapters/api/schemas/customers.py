@@ -6,8 +6,6 @@ Request/response models for API validation.
 from __future__ import annotations
 
 from datetime import date
-from decimal import Decimal
-from typing import Any
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -22,20 +20,20 @@ class ClienteCreate(BaseModel):
     endereco: str = Field(..., min_length=1, max_length=255)
     data_nascimento: date = Field(..., le=date.today())
     cdbairro: int = Field(..., gt=0)
-    cep: str | None = Field(None, pattern=r"^\d{5}?\-?\d{3}$")
-    fone_01: str | None = Field(None, max_length=15)
-    ramal_res: str | None = Field(None, max_length=10)
-    fone_02: str | None = Field(None, max_length=15)
-    ramal_trab: str | None = Field(None, max_length=10)
-    fone_03: str | None = Field(None, max_length=15)
+    cep: str | None = Field(default=None, pattern=r"^\d{5}?\-?\d{3}$")
+    fone_01: str | None = Field(default=None, max_length=15)
+    ramal_res: str | None = Field(default=None, max_length=10)
+    fone_02: str | None = Field(default=None, max_length=15)
+    ramal_trab: str | None = Field(default=None, max_length=10)
+    fone_03: str | None = Field(default=None, max_length=15)
     identidade: str = Field(..., max_length=20)
-    expedidor: str | Field(None, max_length=20)
+    expedidor: str | None = Field(default=None, max_length=20)
     data_expedicao: date | None = None
-    cic: str | None = Field(None, pattern=r"^\d{11}$")
-    empresa: str = Field(None, max_length=255)
-    end_comercial: str = Field(None, max_length=255)
-    referencia_pessoal: str = Field(None, max_length=255)
-    obs: str = None
+    cic: str | None = Field(default=None, pattern=r"^\d{11}$")
+    empresa: str | None = Field(default=None, max_length=255)
+    end_comercial: str | None = Field(default=None, max_length=255)
+    referencia_pessoal: str | None = Field(default=None, max_length=255)
+    obs: str | None = None
 
     @field_validator("data_nascimento")
     @classmethod
@@ -51,24 +49,24 @@ class ClienteCreate(BaseModel):
 class ClienteUpdate(BaseModel):
     """Schema for updating a customer."""
 
-    nomecliente: str | None = Field(None, min_length=1, max_length=255)
-    endereco: str | None = Field(None, min_length=1, max_length=255)
-    data_nascimento: date | None = Field(None, le=date.today())
-    cdbairro: int | None = Field(None, gt=0)
-    cep: str | None = Field(None, pattern=r"^\d{5}?\-?\d{3}$")
-    fone_01: str | None = Field(None, max_length=15)
-    ramal_res: str | None = Field(None, max_length=10)
-    fone_02: str | None = Field(None, max_length=15)
-    ramal_trab: str | None = Field(None, max_length=10)
-    fone_03: str | None = Field(None, max_length=15)
-    identidade: str | None = Field(None, max_length=20)
-    expedidor: str | None = Field(None, max_length=20)
+    nomecliente: str | None = Field(default=None, min_length=1, max_length=255)
+    endereco: str | None = Field(default=None, min_length=1, max_length=255)
+    data_nascimento: date | None = Field(default=None, le=date.today())
+    cdbairro: int | None = Field(default=None, gt=0)
+    cep: str | None = Field(default=None, pattern=r"^\d{5}?\-?\d{3}$")
+    fone_01: str | None = Field(default=None, max_length=15)
+    ramal_res: str | None = Field(default=None, max_length=10)
+    fone_02: str | None = Field(default=None, max_length=15)
+    ramal_trab: str | None = Field(default=None, max_length=10)
+    fone_03: str | None = Field(default=None, max_length=15)
+    identidade: str | None = Field(default=None, max_length=20)
+    expedidor: str | None = Field(default=None, max_length=20)
     data_expedicao: date | None = None
-    cic: str | None = Field(None, pattern=r"^\d{11}$")
-    empresa: str | None = Field(None, max_length=255)
-    end_comercial: str | None = Field(None, max_length=255)
-    referencia_pessoal: str | None = Field(None, max_length=255)
-    obs: str = None
+    cic: str | None = Field(default=None, pattern=r"^\d{11}$")
+    empresa: str | None = Field(default=None, max_length=255)
+    end_comercial: str | None = Field(default=None, max_length=255)
+    referencia_pessoal: str | None = Field(default=None, max_length=255)
+    obs: str | None = None
     is_cancelado: bool | None = None
 
 
@@ -81,7 +79,7 @@ class DependenteCreate(BaseModel):
 class DependenteUpdate(BaseModel):
     """Schema for updating a dependent."""
 
-    nome_dependente: str | None = Field(None, min_length=1, max_length=255)
+    nome_dependente: str | None = Field(default=None, min_length=1, max_length=255)
 
 
 # Response schemas
@@ -101,8 +99,8 @@ class DependenteResponse(BaseModel):
 class ClienteResponse(BaseModel):
     """Schema for customer response."""
 
-    id: int
-    codcliente: str
+    id: int  # Maps to codcliente (internal ID)
+    codcliente: str | None = None  # Customer code (optional, may not be set)
     nomecliente: str
     endereco: str
     data_nascimento: date
@@ -113,14 +111,14 @@ class ClienteResponse(BaseModel):
     fone_02: str | None
     ramal_trab: str | None
     fone_03: str | None
-    identidade: str
+    identidade: str | None
     expedidor: str | None
     data_expedicao: date | None
     cic: str | None
     empresa: str | None
     end_comercial: str | None
     referencia_pessoal: str | None
-    data_inscricao: date
+    data_inscricao: date | None = None
     is_cancelado: bool
     obs: str | None
     dependentes: list[DependenteResponse] = []

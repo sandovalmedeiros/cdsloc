@@ -127,10 +127,10 @@ class TitleResponse(BaseModel):
     tipo_locacao: TipoLocacaoEnum
     valor: Decimal
     qtde: int
-    id_grupo: int | None
-    id_estilo: int | None
+    cdgrupo: int | None = Field(default=None, alias="id_grupo")
+    cdestilo: int | None = Field(default=None, alias="id_estilo")
     cds: list[CdResponse] = []
     musicas: list[MusicaResponse] = []
     interpretes: list[InterpreteResponse] = []
 
-    model_config = {"from_attributes": True}
+    model_config = {"from_attributes": True, "populate_by_name": True}

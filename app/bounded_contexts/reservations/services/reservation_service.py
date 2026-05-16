@@ -10,8 +10,12 @@ from datetime import datetime, timedelta
 from app.bounded_contexts.customers.domain.entities import Cliente
 from app.bounded_contexts.reservations.domain.entities import Reserva, SituacaoReserva
 from app.bounded_contexts.reservations.ports.repositories import (
-    CustomerRepositoryPort,
     ReservationRepositoryPort,
+)
+from app.bounded_contexts.customers.ports.repositories import (
+    CustomerRepositoryPort,
+)
+from app.bounded_contexts.catalog.ports.repositories import (
     TitleRepositoryPort,
 )
 from app.shared.domain import DomainEvent, reserva_criada, reserva_confirmada, reserva_cancelada

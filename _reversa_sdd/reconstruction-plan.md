@@ -117,7 +117,7 @@ Nenhum item bloqueante. Pode iniciar.
 ---
 
 ### Tarefa 13 — Validação de Paridade
-**Status:** pending
+**Status:** done
 **Lê:** `_reversa_sdd/migration/parity_specs.md`
 **Constrói:** suíte de testes de paridade (calculation parity, data parity, endpoint parity), relatório de divergências
 **Pronto quando:** Todos os fluxos críticos definidos em parity_specs.md (multa, estoque, CPF, data prevista) passam nos testes

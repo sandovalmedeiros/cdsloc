@@ -12,10 +12,15 @@ from app.bounded_contexts.customers.domain.entities import Cliente
 from app.bounded_contexts.catalog.domain.entities import CdFisico, SituacaoCd, Title
 from app.bounded_contexts.rentals.domain.entities import Locacao, Recibo
 from app.bounded_contexts.rentals.ports.repositories import (
-    CdFisicoRepositoryPort,
-    CustomerRepositoryPort,
     ReceiptRepositoryPort,
     RentalRepositoryPort,
+)
+from app.bounded_contexts.catalog.ports.repositories import (
+    CdFisicoRepositoryPort,
+    TitleRepositoryPort,
+)
+from app.bounded_contexts.customers.ports.repositories import (
+    CustomerRepositoryPort,
 )
 from app.bounded_contexts.rentals.services.calculation_service import (
     CalculationService,

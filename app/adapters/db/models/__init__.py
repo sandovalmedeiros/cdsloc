@@ -5,29 +5,72 @@ Tables are organized by bounded context following hexagonal architecture.
 """
 
 # Auth bounded context
-from . import auth  # noqa: F401
+from .auth import User  # noqa: F401
 
 # Catalog bounded context
-from . import catalog  # noqa: F401
+from .catalog import (  # noqa: F401
+    Cd,
+    Estilo,
+    Grupo,
+    Interprete,
+    Musica,
+    MusicaInterprete,
+    Situacao,
+    Titulo,
+    TituloInterprete,
+    TituloMusica,
+)
 
 # Customers bounded context
-from . import customers  # noqa: F401
+from .customers import (  # noqa: F401
+    Bairro,
+    Cliente,
+    Dependente,
+    Municipio,
+)
 
 # Rentals bounded context
-from . import rentals  # noqa: F401 (to be created)
+from .rentals import (  # noqa: F401
+    Locacao,
+    LocacaoItem,
+    Recibo,
+)
 
 # Reservations bounded context
-from . import reservations  # noqa: F401 (to be created)
+from .reservations import (  # noqa: F401
+    Reserva,
+)
 
-# Shared
-from . import shared  # noqa: F401 (to be created)
+# Reports bounded context
+from .reports import (  # noqa: F401
+    RelatorioSpec,
+)
 
 __all__ = [
-    # Modules
-    "auth",
-    "catalog",
-    "customers",
-    "rentals",
-    "reservations",
-    "shared",
+    # Auth
+    "User",
+    # Catalog
+    "Titulo",
+    "Cd",
+    "Musica",
+    "MusicaInterprete",
+    "Interprete",
+    "Grupo",
+    "Estilo",
+    "Situacao",
+    "TituloMusica",
+    "TituloInterprete",
+    # Customers
+    "Municipio",
+    "Bairro",
+    "Cliente",
+    "Dependente",
+    # Rentals
+    "Locacao",
+    "LocacaoItem",
+    "Recibo",
+    # Reservations
+    "Reserva",
+    # Reports
+    "RelatorioSpec",
 ]

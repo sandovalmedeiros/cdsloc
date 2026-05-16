@@ -20,8 +20,8 @@ class Municipio(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100), nullable=False)
     uf: Mapped[str] = mapped_column(String(2), nullable=False)
-    created_at: Mapped[date] = mapped_column(date, nullable=False)
-    updated_at: Mapped[date] = mapped_column(date, nullable=False)
+    created_at: Mapped[date] = mapped_column(Date, nullable=False)
+    updated_at: Mapped[date] = mapped_column(Date, nullable=False)
 
     # Relationships
     bairros: Mapped[list["Bairro"]] = relationship(
@@ -47,8 +47,8 @@ class Bairro(Base):
         ForeignKey("municipios.id", ondelete="SET NULL"),
         nullable=False,
     )
-    created_at: Mapped[date] = mapped_column(date, nullable=False)
-    updated_at: Mapped[date] = mapped_column(date, nullable=False)
+    created_at: Mapped[date] = mapped_column(Date, nullable=False)
+    updated_at: Mapped[date] = mapped_column(Date, nullable=False)
 
     # Relationships
     municipio: Mapped["Municipio"] = relationship(
@@ -82,7 +82,7 @@ class Cliente(Base):
     codcliente: Mapped[str] = mapped_column(String(10), unique=True, nullable=False)
     nomecliente: Mapped[str] = mapped_column(String(255), nullable=False)
     endereco: Mapped[str] = mapped_column(String(255), nullable=False)
-    data_nascimento: Mapped[date] = mapped_column(date, nullable=False)
+    data_nascimento: Mapped[date] = mapped_column(Date, nullable=False)
     cdbairro: Mapped[int] = mapped_column(
         Integer,
         ForeignKey("bairros.id"),
@@ -96,16 +96,16 @@ class Cliente(Base):
     fone_03: Mapped[str] = mapped_column(String(15), nullable=True)
     identidade: Mapped[str] = mapped_column(String(20), nullable=True)
     expedidor: Mapped[str] = mapped_column(String(20), nullable=True)
-    data_expedicao: Mapped[date] = mapped_column(date, nullable=True)
+    data_expedicao: Mapped[date] = mapped_column(Date, nullable=True)
     cic: Mapped[str] = mapped_column(String(14), nullable=True)
     empresa: Mapped[str] = mapped_column(String(255), nullable=True)
     end_comercial: Mapped[str] = mapped_column(String(255), nullable=True)
     referencia_pessoal: Mapped[str] = mapped_column(String(255), nullable=True)
-    data_inscricao: Mapped[date] = mapped_column(date, nullable=False)
+    data_inscricao: Mapped[date] = mapped_column(Date, nullable=False)
     is_cancelado: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     obs: Mapped[str | None] = mapped_column(Text, nullable=True)
-    created_at: Mapped[date] = mapped_column(date, nullable=False)
-    updated_at: Mapped[date] = mapped_column(date, nullable=False)
+    created_at: Mapped[date] = mapped_column(Date, nullable=False)
+    updated_at: Mapped[date] = mapped_column(Date, nullable=False)
 
     # Relationships
     bairro: Mapped["Bairro"] = relationship(
@@ -136,8 +136,8 @@ class Dependente(Base):
         nullable=False,
     )
     nome_dependente: Mapped[str] = mapped_column(String(255), nullable=False)
-    created_at: Mapped[date] = mapped_column(date, nullable=False)
-    updated_at: Mapped[date] = mapped_column(date, nullable=False)
+    created_at: Mapped[date] = mapped_column(Date, nullable=False)
+    updated_at: Mapped[date] = mapped_column(Date, nullable=False)
 
     # Relationships
     cliente: Mapped["Cliente"] = relationship(

@@ -1,31 +1,26 @@
 # Portas mapeadas para evitar conflitos com serviços existentes no host:
-# - PostgreSQL : host 5433 → container 5432
+# - PostgreSQL : host 5432 (usando PostgreSQL local já migrado)
 # - Redis      : host 6380 → container 6379
 # - App (API)  : host 8001 → container 8000
 # - Frontend   : host 3001 → container 80
 #
-# Para usar o PostgreSQL já existente no host (porta 5432) em vez do container:
-#   1. Comente ou remova o serviço "postgres" abaixo
-#   2. No serviço "app", troque DATABASE_URL para:
-#      postgresql+asyncpg://postgres:postgres@host.docker.internal:5432/cdsloc
-#   3. Remova o bloco depends_on.postgres do serviço "app"
+# Configurado para usar PostgreSQL local já migrado (porta 5432)
 
 services:
-
   postgres:
     image: postgres:15-alpine
     container_name: cdsloc-postgres
     environment:
-      POSTGRES_USER: cdsloc
-      POSTGRES_PASSWORD: cdsloc_password
-      POSTGRES_DB: cdsloc
+      - POSTGRES_USER=cdsloc
+      - POSTGRES_PASSWORD=cdsloc_password
+      - POSTGRES_DB=cdsloc
     ports:
       - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U cdsloc"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
     networks:
@@ -53,17 +48,19 @@ services:
     container_name: app
     ports:
       - "8001:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
-      # Dentro da rede Docker os serviços se comunicam pela porta INTERNA do container
-      - DATABASE_URL=postgresql+asyncpg://cdsloc:cdsloc_password@postgres:5432/cdsloc
-      - REDIS_URL=redis://redis:6379/0      # porta interna 6379, não a 6380 do host
+      # Conectando no PostgreSQL Docker
+      - DATABASE_URL=postgresql+asyncpg://cdsloc:cdsloc_password@cdsloc-postgres:5432/cdsloc
+      - REDIS_URL=redis://redis:6379/0
       - JWT_SECRET_KEY=${JWT_SECRET_KEY:-your-secret-key-change-in-production}
       - JWT_ALGORITHM=HS256
       - JWT_EXPIRATION_MINUTES=30
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
+        condition: service_healthy
+      postgres:
         condition: service_healthy
     volumes:
       - ./app:/app/app
@@ -75,19 +72,19 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=http://localhost:8001
     container_name: cdsloc-frontend
     ports:
       - "3001:80"
-    environment:
-      - VITE_API_URL=http://localhost:8001
     depends_on:
       - app
     networks:
       - cdsloc-network
 
 volumes:
-  postgres_data:
   redis_data:
+  postgres_data:
 
 networks:
   cdsloc-network:

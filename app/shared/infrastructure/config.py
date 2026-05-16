@@ -47,10 +47,21 @@ class Settings(BaseSettings):
     app_version: str = Field(default="0.1.0", description="Application version")
     debug: bool = Field(default=False, description="Debug mode")
 
+    # API
+    api_host: str = Field(default="0.0.0.0", description="API host")
+    api_port: int = Field(default=8000, description="API port")
+
     # CORS
     cors_origins: list[str] = Field(
         default=["http://localhost:3000", "http://localhost:8080"],
         description="Allowed CORS origins",
+    )
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+        extra="ignore",  # Allow extra fields in .env without validation errors
     )
 
 

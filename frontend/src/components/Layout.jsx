@@ -112,7 +112,12 @@ export function Layout() {
                 {apiStatus === 'connecting' && '⏳ Conectando...'}
               </span>
             </div>
-            <button className="flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-900">
+            <button
+              onClick={() => {
+                window.location.href = '/';
+              }}
+              className="flex items-center space-x-2 text-sm text-gray-600 hover:text-gray-900"
+            >
               <LogOut className="w-4 h-4" />
               <span>Sair</span>
             </button>

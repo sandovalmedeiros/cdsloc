@@ -84,6 +84,13 @@ class CdFisicoRepositoryPort(ABC):
         pass
 
     @abstractmethod
+    async def get_all(
+        self, skip: int = 0, limit: int = 100
+    ) -> Iterable[CdFisico]:
+        """Get all CDs with pagination."""
+        pass
+
+    @abstractmethod
     async def save(self, cd: CdFisico) -> DomainEvent:
         """Save CD and emit CdRegistered event if new."""
         pass
@@ -101,6 +108,16 @@ class CdFisicoRepositoryPort(ABC):
     @abstractmethod
     async def count_by_title(self, title_id: int) -> int:
         """Count CDs for a title (BR-MIGRAR-017)."""
+        pass
+
+    @abstractmethod
+    async def mark_cd_rented(self, codigo: int | str) -> DomainEvent:
+        """Mark CD as rented (RENT-006)."""
+        pass
+
+    @abstractmethod
+    async def mark_cd_available(self, codigo: int | str) -> DomainEvent:
+        """Mark CD as available (RENT-011)."""
         pass
 
 

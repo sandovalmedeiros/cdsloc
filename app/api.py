@@ -7,11 +7,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
 
 from app.adapters.api.middleware import register_exception_handlers
 from app.adapters.api.routers import (
     catalog_router,
     customers_router,
+    dashboard_router,
     rentals_router,
     reservations_router,
     reports_router,
@@ -22,16 +24,24 @@ from app.adapters.api.routers import (
 async def lifespan(app: FastAPI):
     """Manage application lifespan events.
 
-    - Startup: Initialize database connection
+    - Startup: Initialize database connection and create tables
     - Shutdown: Close database connection
     """
     # Startup
-    from app.adapters.db.base import engine, AsyncSessionLocal
+    from app.adapters.db.base import engine, AsyncSessionLocal, Base
 
-    # Create tables if they don't exist (for development)
-    # In production, use Alembic migrations
-    async with engine.begin() as conn:
-        await conn.run_sync(lambda: None)  # Placeholder for schema creation
+    try:
+        # Test database connection
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+
+        # Create all tables if they don't exist
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+        print("✓ Database connected and tables created/verified")
+    except Exception as e:
+        print(f"✗ Database connection/setup failed: {e}")
 
     yield
 
@@ -65,6 +75,7 @@ register_exception_handlers(app)
 
 
 # Register routers
+app.include_router(dashboard_router, tags=["dashboard"])
 app.include_router(catalog_router, tags=["catalog"])
 app.include_router(customers_router, tags=["customers"])
 app.include_router(rentals_router, tags=["rentals"])
@@ -82,6 +93,19 @@ async def root() -> dict[str, str]:
         "description": "API REST para sistema de locação de CDs",
         "docs": "/docs",
     }
+
+
+# Database initialization endpoint (for development)
+@app.post("/init-db", tags=["database"])
+async def initialize_database():
+    """Initialize database schema (create all tables)."""
+    from app.adapters.db.base import init_db
+
+    try:
+        await init_db()
+        return {"status": "success", "message": "Database initialized successfully"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 
 # Health check endpoint

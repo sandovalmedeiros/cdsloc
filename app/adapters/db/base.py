@@ -39,7 +39,9 @@ AsyncSessionLocal = async_sessionmaker(
 )
 
 # Declarative base for ORM models
-Base = DeclarativeBase()
+class Base(DeclarativeBase):
+    """Base class for all ORM models."""
+    pass
 
 
 def _now() -> datetime:

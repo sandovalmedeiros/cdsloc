@@ -15,18 +15,13 @@ export function Dashboard() {
     const loadStats = async () => {
       try {
         // Fetch stats from API
-        const [cds, clientes, locacoes, reservas] = await Promise.all([
-          apiService.getCDs().then((data) => data.length),
-          apiService.getClientes().then((data) => data.length),
-          apiService.getLocacoesPendentes().then((data) => data.length),
-          apiService.getClienteReservas(0).then((data) => data.length), // Mock
-        ]);
+        const data = await apiService.getDashboardStats();
 
         setStats({
-          totalCDs: cds,
-          totalClientes: clientes,
-          locacoesAtivas: locacoes,
-          reservasPendentes: reservas,
+          totalCDs: data.totalCDs || 0,
+          totalClientes: data.totalClientes || 0,
+          locacoesAtivas: data.locacoesAtivas || 0,
+          reservasPendentes: data.reservasPendentes || 0,
         });
       } catch (error) {
         console.error('Error loading stats:', error);
